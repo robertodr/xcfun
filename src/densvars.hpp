@@ -16,6 +16,7 @@
 
 #include "XCFunctional.hpp"
 #include "config.hpp"
+#include "error_handling.hpp"
 
 // When regularizing we shouldn't touch the higher order
 // parts of the density, so we need this.

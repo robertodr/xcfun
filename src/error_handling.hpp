@@ -24,7 +24,7 @@ namespace xcfun {
 namespace detail {
 inline auto message_to_user(const char * message,
                             const char * func,
-                            const char * line,
+                            int line,
                             const char * fname,
                             bool report_issue) -> std::string {
   std::ostringstream err;
@@ -41,7 +41,7 @@ inline auto message_to_user(const char * message,
 
 inline auto message_to_user(const std::string & message,
                             const char * func,
-                            const char * line,
+                            int line,
                             const char * fname,
                             bool report_issue) -> std::string {
   return message_to_user(message.c_str(), func, line, fname, report_issue);
@@ -49,7 +49,7 @@ inline auto message_to_user(const std::string & message,
 
 inline auto message_to_user(const std::ostringstream & message,
                             const char * func,
-                            const char * line,
+                            int line,
                             const char * fname,
                             bool report_issue) -> std::string {
   return message_to_user(message.str().c_str(), func, line, fname, report_issue);
@@ -57,20 +57,11 @@ inline auto message_to_user(const std::ostringstream & message,
 } // namespace detail
 } // namespace xcfun
 
-#define ERRMSG(message) xcfun::detail::message_to_user(message, func, line, false)
-#define ERRMSG_REPORT_ISSUE(message, report)                                        \
-  xcfun::detail::message_to_user(message, func, line, true)
-
-#define GET_4TH_ARG(arg1, arg2, arg3, arg4, ...) arg4
-#define ERRMSG_MACRO_CHOOSER(...)                                                   \
-  GET_4TH_ARG(__VA_ARGS__, ERRMSG_REPORT_ISSUE, MESSAGE, )
-
-#define ERRMGS(...) ERRMSG_MACRO_CHOOSER(__VA_ARGS__)(__VA_ARGS__)
-
 /// Macro to be used to signal error conditions
 #define XCFun_ERROR(message)                                                        \
   {                                                                                 \
-    auto errmsg = ERRMSG(message, __func__, __LINE__, __FILE__);                    \
+    auto errmsg = xcfun::detail::message_to_user(                                   \
+        message, __func__, __LINE__, __FILE__, false);                              \
     std::fprintf(stderr, "%s\n", errmsg.c_str());                                   \
     std::exit(EXIT_FAILURE);                                                        \
   }
@@ -78,6 +69,7 @@ inline auto message_to_user(const std::ostringstream & message,
 /// Macro to be used to signal non-fatal error conditions
 #define XCFun_WARNING(message)                                                      \
   {                                                                                 \
-    auto errmsg = ERRMSG(message, __func__, __LINE__, __FILE__, true);              \
+    auto errmsg = xcfun::detail::message_to_user(                                   \
+        message, __func__, __LINE__, __FILE__, true);                               \
     std::fprintf(stderr, "%s\n", errmsg.c_str());                                   \
   }
