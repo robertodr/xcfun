@@ -45,7 +45,7 @@ int xcint_lookup_alias(const char * name) {
 template <int FUN> void xcint_functional_setup_helper() {
   if (!(fundat_db<FUN>::symbol[0] == 'X' && fundat_db<FUN>::symbol[1] == 'C' &&
         fundat_db<FUN>::symbol[2] == '_'))
-    xcfun::die("Functional symbol does not start with XC_", FUN);
+    XCFun_ERROR("Functional symbol does not start with XC_");
   fundat_db<FUN>::d.name = fundat_db<FUN>::symbol + 3;
   fundat_db<FUN>::d.id = (enum xc_functional_id)FUN;
   xcint_funs[FUN] = fundat_db<FUN>::d;
@@ -65,7 +65,7 @@ template <int FUN> struct retarded_helper<FUN, 1> {
   static void doit() {
     if (!(fundat_db<FUN>::symbol[0] == 'X' && fundat_db<FUN>::symbol[1] == 'C' &&
           fundat_db<FUN>::symbol[2] == '_'))
-      xcfun::die("Functional symbol does not start with XC_", FUN);
+      XCFun_ERROR("Functional symbol does not start with XC_");
     fundat_db<FUN>::d.name = fundat_db<FUN>::symbol + 3;
     fundat_db<FUN>::d.id = (enum xc_functional_id)FUN;
     xcint_funs[FUN] = fundat_db<FUN>::d;
@@ -75,7 +75,7 @@ template <int FUN> struct retarded_helper<FUN, 1> {
 template <int P> void xcint_parameter_setup_helper() {
   if (!(pardat_db<P>::symbol[0] == 'X' && pardat_db<P>::symbol[1] == 'C' &&
         pardat_db<P>::symbol[2] == '_'))
-    xcfun::die("Symbol does not start with XC_", P);
+    XCFun_ERROR("Symbol does not start with XC_");
   pardat_db<P>::d.name = pardat_db<P>::symbol + 3;
   xcint_params[P] = pardat_db<P>::d;
   xcint_parameter_setup_helper<P + 1>();

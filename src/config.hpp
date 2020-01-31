@@ -14,19 +14,9 @@
 
 #pragma once
 
-#include <cstdio>
-#include <cstdlib>
-
 namespace xcfun {
 // Used for regularizing input
 constexpr auto XCFUN_TINY_DENSITY = 1e-14;
-
-inline void die(const char * message, int code) {
-  std::fprintf(stderr, "XCFun fatal error %i: ", code);
-  std::fprintf(stderr, "%s", message);
-  std::fprintf(stderr, "\n");
-  std::exit(-1);
-}
 } // namespace xcfun
 
 // Enable functionals still in development (probably buggy)

@@ -93,8 +93,6 @@ extern alias_data * xcint_aliases;
 
 void xcint_assure_setup();
 
-void xcfun::die(const char * message, int code);
-
 // The lookup functions return -1 if not found
 // TODO: Case insensitive string comparison should be used
 int xcint_lookup_functional(const char * name);

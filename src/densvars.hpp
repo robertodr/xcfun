@@ -207,8 +207,7 @@ template <typename T> struct densvars {
         s = a - b;
         break;
       default:
-        xcfun::die("Illegal/Not yet implemented vars value in densvars()",
-                   parent->vars);
+        XCFun_ERROR("Illegal/Not yet implemented vars value in densvars()");
     }
     zeta = s / n;
     r_s = pow(3.0 / (n * 4.0 * M_PI), 1.0 / 3.0); // (3/4pi)^1/3*n^(-1/3) !check

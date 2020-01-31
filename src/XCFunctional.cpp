@@ -21,6 +21,7 @@
 #include <cstring>
 #include <sstream>
 
+#include "error_handling.hpp"
 #include "functionals/list_of_functionals.hpp"
 #include "version_info.hpp"
 #include "xcint.hpp"
@@ -90,7 +91,7 @@ int xcfun_test() {
         int n = xcfun_output_length(fun);
         auto out = new double[n];
         if (!fd->test_in)
-          xcfun::die("Functional has no test input!", f);
+          XCFun_ERROR("Functional has no test input!");
         xcfun_eval(fun, fd->test_in, out);
         int nerr = 0;
         for (auto i = 0; i < n; ++i)
@@ -142,7 +143,7 @@ xcfun_vars xcfun_which_vars(const unsigned int func_type,
                             const unsigned int explicit_derivatives) {
   if (func_type > 3 || dens_type > 3 || laplacian > 1 || kinetic > 1 ||
       current > 1 || explicit_derivatives > 1) {
-    xcfun::die("xcfun_which_vars: invalid input", -1);
+    XCFun_ERROR("xcfun_which_vars: invalid input");
   }
 
   xcfun_vars vars = XC_VARS_UNSET;
@@ -276,7 +277,7 @@ xcfun_vars xcfun_which_vars(const unsigned int func_type,
       vars = XC_N_S_2ND_TAYLOR;
       break; // 1  1  |  1  1  |  0  |  0  |  0  |  0
     default:
-      xcfun::die("xc_user_eval_setup: Invalid vars", bitwise_vars);
+      XCFun_ERROR("xcfun_user_eval_setup: Invalid vars");
   }
 
   return vars;
@@ -284,7 +285,7 @@ xcfun_vars xcfun_which_vars(const unsigned int func_type,
 
 xcfun_mode xcfun_which_mode(const unsigned int mode_type) {
   if (mode_type > 3) {
-    xcfun::die("xcfun_which_mode: invalid input", -1);
+    XCFun_ERROR("xcfun_which_mode: invalid input");
   }
   xcfun_mode mode = XC_MODE_UNSET;
 
@@ -299,7 +300,7 @@ xcfun_mode xcfun_which_mode(const unsigned int mode_type) {
       mode = XC_CONTRACTED;
       break;
     default:
-      xcfun::die("xc_user_eval_setup: Invalid mode", mode_type);
+      XCFun_ERROR("xc_user_eval_setup: Invalid mode");
   }
 
   return mode;
@@ -398,7 +399,7 @@ int xcfun_set(XCFunctional * fun, const char * name, double value) {
                     xcint_aliases[item].terms[i].name,
                     value * xcint_aliases[item].terms[i].weight) != 0) {
         fprintf(stderr, "Trying to set %s\n", xcint_aliases[item].terms[i].name);
-        xcfun::die("Alias with unknown terms, fix aliases.cpp", item);
+        XCFun_ERROR("Alias with unknown terms, fix aliases.cpp");
       }
     }
     return 0;
@@ -474,11 +475,11 @@ int xcfun_input_length(const XCFunctional * fun) {
 
 int xcfun_output_length(const XCFunctional * fun) {
   if (fun->mode == XC_MODE_UNSET)
-    xcfun::die("xc_output_length() called before a mode was succesfully set", 0);
+    XCFun_ERROR("xc_output_length() called before a mode was succesfully set");
   if (fun->vars == XC_VARS_UNSET)
-    xcfun::die("xc_output_length() called before variables were succesfully set", 0);
+    XCFun_ERROR("xc_output_length() called before variables were succesfully set");
   if (fun->order == -1)
-    xcfun::die("xc_output_length() called before the order were succesfully set", 0);
+    XCFun_ERROR("xc_output_length() called before the order were succesfully set");
   if (fun->mode == XC_PARTIAL_DERIVATIVES) {
     return taylorlen(xcint_vars[fun->vars].len, fun->order);
   } else if (fun->mode == XC_POTENTIAL) {
@@ -487,18 +488,18 @@ int xcfun_output_length(const XCFunctional * fun) {
     else
       return 3; // Spin-resolved potential
   } else {
-    xcfun::die("XC_CONTRACTED not implemented in xc_output_length()", 0);
+    XCFun_ERROR("XC_CONTRACTED not implemented in xc_output_length()");
     return 0;
   }
 }
 
 void xcfun_eval(const XCFunctional * fun, const double input[], double output[]) {
   if (fun->mode == XC_MODE_UNSET)
-    xcfun::die("xc_eval() called before a mode was successfully set", 0);
+    XCFun_ERROR("xc_eval() called before a mode was successfully set");
   if (fun->vars == XC_VARS_UNSET)
-    xcfun::die("xc_eval() called before variables were successfully set", 0);
+    XCFun_ERROR("xc_eval() called before variables were successfully set");
   if (fun->order == -1 && fun->mode != XC_POTENTIAL)
-    xcfun::die("xc_eval() called before the order was successfully set", 0);
+    XCFun_ERROR("xc_eval() called before the order was successfully set");
   if (fun->mode == XC_PARTIAL_DERIVATIVES) {
     switch (fun->order) {
       case 0: {
@@ -614,8 +615,7 @@ void xcfun_eval(const XCFunctional * fun, const double input[], double output[])
       } break;
 #endif
       default:
-        xcfun::die("FIXME: Order too high for partial derivatives in xc_eval",
-                   fun->order);
+        XCFun_ERROR("FIXME: Order too high for partial derivatives in xc_eval");
     }
   } else if (fun->mode == XC_CONTRACTED) {
 #define DOEVAL(N, E)                                                                \
@@ -635,7 +635,7 @@ void xcfun_eval(const XCFunctional * fun, const double input[], double output[])
       output[i] = out.get(i);                                                       \
   } else
     FOR_EACH(XCFUN_MAX_ORDER, DOEVAL, )
-    xcfun::die("bug! Order too high in XC_CONTRACTED", fun->order);
+    XCFun_ERROR("bug! Order too high in XC_CONTRACTED");
   } else if (fun->mode == XC_POTENTIAL) {
     // TODO: We shouldn't need the second density derivatives internally
     int inlen = xcint_vars[fun->vars].len;
@@ -789,11 +789,11 @@ void xcfun_eval(const XCFunctional * fun, const double input[], double output[])
                 VAR1); // Subtract divergence of dE/dg from lda part of potential
           }
         }
-        //	      xcfun::die("TODO: AB GGA potential",fun->mode);
+        //	      XCFun_ERROR("TODO: AB GGA potential");
       }
     }
   } else {
-    xcfun::die("Illegal mode in xc_eval()", fun->mode);
+    XCFun_ERROR("Illegal mode in xc_eval()");
   }
 }
 
