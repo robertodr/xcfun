@@ -14,6 +14,7 @@
 
 #pragma once
 
+#include <array>
 #include <cstdio>
 
 #include "config.hpp"
@@ -88,8 +89,10 @@ struct alias_data {
 
 extern functional_data xcint_funs[XC_NR_FUNCTIONALS];
 extern parameter_data xcint_params[XC_NR_PARAMETERS_AND_FUNCTIONALS];
-extern vars_data xcint_vars[XC_NR_VARS];
 extern alias_data * xcint_aliases;
+
+auto xcint_vars() noexcept -> std::array<vars_data, XC_NR_VARS> &;
+auto xcint_vars(int index) -> vars_data;
 
 void xcint_assure_setup();
 

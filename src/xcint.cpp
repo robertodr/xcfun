@@ -85,49 +85,60 @@ template <int P> void xcint_parameter_setup_helper() {
 
 template <> void xcint_parameter_setup_helper<XC_NR_PARAMETERS_AND_FUNCTIONALS>() {}
 
-vars_data xcint_vars[XC_NR_VARS] = {
-    {"XC_A", 1, XC_DENSITY},
-    {"XC_N", 1, XC_DENSITY},
-    {"XC_A_B", 2, XC_DENSITY},
-    {"XC_N_S", 2, XC_DENSITY},
-    {"XC_A_GAA", 2, XC_DENSITY | XC_GRADIENT},
-    {"XC_N_GNN", 2, XC_DENSITY | XC_GRADIENT},
-    {"XC_A_B_GAA_GAB_GBB", 5, XC_DENSITY | XC_GRADIENT},
-    {"XC_N_S_GNN_GNS_GSS", 5, XC_DENSITY | XC_GRADIENT},
-    {"XC_A_GAA_LAPA", 3, XC_DENSITY | XC_GRADIENT | XC_LAPLACIAN},
-    {"XC_A_GAA_TAUA", 3, XC_DENSITY | XC_GRADIENT | XC_KINETIC},
-    {"XC_N_GNN_LAPN", 3, XC_DENSITY | XC_GRADIENT | XC_LAPLACIAN},
-    {"XC_N_GNN_TAUN", 3, XC_DENSITY | XC_GRADIENT | XC_KINETIC},
-    {"XC_A_B_GAA_GAB_GBB_LAPA_LAPB", 7, XC_DENSITY | XC_GRADIENT | XC_LAPLACIAN},
-    {"XC_A_B_GAA_GAB_GBB_TAUA_TAUB", 7, XC_DENSITY | XC_GRADIENT | XC_KINETIC},
-    {"XC_N_S_GNN_GNS_GSS_LAPN_LAPS", 7, XC_DENSITY | XC_GRADIENT | XC_LAPLACIAN},
-    {"XC_N_S_GNN_GNS_GSS_TAUN_TAUS", 7, XC_DENSITY | XC_GRADIENT | XC_KINETIC},
-    {"XC_A_B_GAA_GAB_GBB_LAPA_LAPB_TAUA_TAUB",
-     9,
-     XC_DENSITY | XC_GRADIENT | XC_LAPLACIAN | XC_KINETIC},
-    {"XC_A_B_GAA_GAB_GBB_LAPA_LAPB_TAUA_TAUB_JPAA_JPBB",
-     11,
-     XC_DENSITY | XC_GRADIENT | XC_LAPLACIAN | XC_KINETIC | XC_JP},
-    {"XC_N_S_GNN_GNS_GSS_LAPN_LAPS_TAUN_TAUS",
-     9,
-     XC_DENSITY | XC_GRADIENT | XC_LAPLACIAN | XC_KINETIC},
-    {"XC_A_AX_AY_AZ", 4, XC_DENSITY | XC_GRADIENT},
-    {"XC_A_B_AX_AY_AZ_BX_BY_BZ", 8, XC_DENSITY | XC_GRADIENT},
-    {"XC_N_NX_NY_NZ", 4, XC_DENSITY | XC_GRADIENT},
-    {"XC_N_S_NX_NY_NZ_SX_SY_SZ", 8, XC_DENSITY | XC_GRADIENT},
-    {"XC_A_AX_AY_AZ_TAUA", 5, XC_DENSITY | XC_GRADIENT | XC_KINETIC},
-    {"XC_A_B_AX_AY_AZ_BX_BY_BZ_TAUA_TAUB",
-     10,
-     XC_DENSITY | XC_GRADIENT | XC_KINETIC},
-    {"XC_N_NX_NY_NZ_TAUN", 5, XC_DENSITY | XC_GRADIENT | XC_KINETIC},
-    {"XC_N_S_NX_NY_NZ_SX_SY_SZ_TAUN_TAUS",
-     10,
-     XC_DENSITY | XC_GRADIENT | XC_KINETIC},
-    {"XC_A_2ND_TAYLOR", 10, XC_DENSITY | XC_GRADIENT | XC_LAPLACIAN},
-    {"XC_A_B_2ND_TAYLOR", 20, XC_DENSITY | XC_GRADIENT | XC_LAPLACIAN},
-    {"XC_N_2ND_TAYLOR", 10, XC_DENSITY | XC_GRADIENT | XC_LAPLACIAN},
-    {"XC_N_S_2ND_TAYLOR", 20, XC_DENSITY | XC_GRADIENT | XC_LAPLACIAN},
-};
+auto xcint_vars() noexcept -> std::array<vars_data, XC_NR_VARS> & {
+  static std::array<vars_data, XC_NR_VARS> retval{
+      vars_data{"XC_A", 1, XC_DENSITY},
+      vars_data{"XC_N", 1, XC_DENSITY},
+      vars_data{"XC_A_B", 2, XC_DENSITY},
+      vars_data{"XC_N_S", 2, XC_DENSITY},
+      vars_data{"XC_A_GAA", 2, XC_DENSITY | XC_GRADIENT},
+      vars_data{"XC_N_GNN", 2, XC_DENSITY | XC_GRADIENT},
+      vars_data{"XC_A_B_GAA_GAB_GBB", 5, XC_DENSITY | XC_GRADIENT},
+      vars_data{"XC_N_S_GNN_GNS_GSS", 5, XC_DENSITY | XC_GRADIENT},
+      vars_data{"XC_A_GAA_LAPA", 3, XC_DENSITY | XC_GRADIENT | XC_LAPLACIAN},
+      vars_data{"XC_A_GAA_TAUA", 3, XC_DENSITY | XC_GRADIENT | XC_KINETIC},
+      vars_data{"XC_N_GNN_LAPN", 3, XC_DENSITY | XC_GRADIENT | XC_LAPLACIAN},
+      vars_data{"XC_N_GNN_TAUN", 3, XC_DENSITY | XC_GRADIENT | XC_KINETIC},
+      vars_data{"XC_A_B_GAA_GAB_GBB_LAPA_LAPB",
+                7,
+                XC_DENSITY | XC_GRADIENT | XC_LAPLACIAN},
+      vars_data{
+          "XC_A_B_GAA_GAB_GBB_TAUA_TAUB", 7, XC_DENSITY | XC_GRADIENT | XC_KINETIC},
+      vars_data{"XC_N_S_GNN_GNS_GSS_LAPN_LAPS",
+                7,
+                XC_DENSITY | XC_GRADIENT | XC_LAPLACIAN},
+      vars_data{
+          "XC_N_S_GNN_GNS_GSS_TAUN_TAUS", 7, XC_DENSITY | XC_GRADIENT | XC_KINETIC},
+      vars_data{"XC_A_B_GAA_GAB_GBB_LAPA_LAPB_TAUA_TAUB",
+                9,
+                XC_DENSITY | XC_GRADIENT | XC_LAPLACIAN | XC_KINETIC},
+      vars_data{"XC_A_B_GAA_GAB_GBB_LAPA_LAPB_TAUA_TAUB_JPAA_JPBB",
+                11,
+                XC_DENSITY | XC_GRADIENT | XC_LAPLACIAN | XC_KINETIC | XC_JP},
+      vars_data{"XC_N_S_GNN_GNS_GSS_LAPN_LAPS_TAUN_TAUS",
+                9,
+                XC_DENSITY | XC_GRADIENT | XC_LAPLACIAN | XC_KINETIC},
+      vars_data{"XC_A_AX_AY_AZ", 4, XC_DENSITY | XC_GRADIENT},
+      vars_data{"XC_A_B_AX_AY_AZ_BX_BY_BZ", 8, XC_DENSITY | XC_GRADIENT},
+      vars_data{"XC_N_NX_NY_NZ", 4, XC_DENSITY | XC_GRADIENT},
+      vars_data{"XC_N_S_NX_NY_NZ_SX_SY_SZ", 8, XC_DENSITY | XC_GRADIENT},
+      vars_data{"XC_A_AX_AY_AZ_TAUA", 5, XC_DENSITY | XC_GRADIENT | XC_KINETIC},
+      vars_data{"XC_A_B_AX_AY_AZ_BX_BY_BZ_TAUA_TAUB",
+                10,
+                XC_DENSITY | XC_GRADIENT | XC_KINETIC},
+      vars_data{"XC_N_NX_NY_NZ_TAUN", 5, XC_DENSITY | XC_GRADIENT | XC_KINETIC},
+      vars_data{"XC_N_S_NX_NY_NZ_SX_SY_SZ_TAUN_TAUS",
+                10,
+                XC_DENSITY | XC_GRADIENT | XC_KINETIC},
+      vars_data{"XC_A_2ND_TAYLOR", 10, XC_DENSITY | XC_GRADIENT | XC_LAPLACIAN},
+      vars_data{"XC_A_B_2ND_TAYLOR", 20, XC_DENSITY | XC_GRADIENT | XC_LAPLACIAN},
+      vars_data{"XC_N_2ND_TAYLOR", 10, XC_DENSITY | XC_GRADIENT | XC_LAPLACIAN},
+      vars_data{"XC_N_S_2ND_TAYLOR", 20, XC_DENSITY | XC_GRADIENT | XC_LAPLACIAN}};
+
+  return retval;
+}
+
+auto xcint_vars(int index) -> vars_data { return xcint_vars()[index]; }
 
 void xcint_assure_setup() {
   static bool is_setup = false;
@@ -138,7 +149,7 @@ void xcint_assure_setup() {
 #ifndef NDEBUG
     /* Verify that the variable definition is consistent. */
     for (int i = 0; i < XC_NR_VARS; i++) {
-      assert(xcint_vars[i].len <= XC_MAX_INVARS);
+      assert(xcint_vars(i).len <= XC_MAX_INVARS);
     }
 #endif
     is_setup = true;

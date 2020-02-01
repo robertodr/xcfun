@@ -431,7 +431,7 @@ int xcfun_eval_setup(XCFunctional * fun,
                      xcfun_mode mode,
                      int order) {
   // Check that vars are enough for the functional
-  if ((fun->depends & xcint_vars[vars].provides) != fun->depends) {
+  if ((fun->depends & xcint_vars(vars).provides) != fun->depends) {
     return xcfun::XC_EVARS;
   }
   if ((order < 0 || order > XCFUN_MAX_ORDER) ||
@@ -470,7 +470,7 @@ int xcfun_user_eval_setup(XCFunctional * fun,
 }
 
 int xcfun_input_length(const XCFunctional * fun) {
-  return xcint_vars[fun->vars].len;
+  return xcint_vars(fun->vars).len;
 }
 
 int xcfun_output_length(const XCFunctional * fun) {
@@ -481,7 +481,7 @@ int xcfun_output_length(const XCFunctional * fun) {
   if (fun->order == -1)
     XCFun_ERROR("xc_output_length() called before the order were succesfully set");
   if (fun->mode == XC_PARTIAL_DERIVATIVES) {
-    return taylorlen(xcint_vars[fun->vars].len, fun->order);
+    return taylorlen(xcint_vars(fun->vars).len, fun->order);
   } else if (fun->mode == XC_POTENTIAL) {
     if (fun->vars == XC_A || fun->vars == XC_A_2ND_TAYLOR)
       return 2; // Energy+potential
@@ -504,7 +504,7 @@ void xcfun_eval(const XCFunctional * fun, const double input[], double output[])
     switch (fun->order) {
       case 0: {
         typedef ctaylor<ireal_t, 0> ttype;
-        int inlen = xcint_vars[fun->vars].len;
+        int inlen = xcint_vars(fun->vars).len;
         ttype in[XC_MAX_INVARS], out = 0;
         for (int i = 0; i < inlen; i++)
           in[i] = input[i];
@@ -516,7 +516,7 @@ void xcfun_eval(const XCFunctional * fun, const double input[], double output[])
       } break;
 #if XCFUN_MAX_ORDER >= 1
       case 1: {
-        int inlen = xcint_vars[fun->vars].len;
+        int inlen = xcint_vars(fun->vars).len;
         {
           typedef ctaylor<ireal_t, 2> ttype2;
           ttype2 in2[XC_MAX_INVARS], out2 = 0;
@@ -539,7 +539,7 @@ void xcfun_eval(const XCFunctional * fun, const double input[], double output[])
         }
         if (inlen & 1) {
           typedef ctaylor<ireal_t, 1> ttype;
-          int inlen = xcint_vars[fun->vars].len;
+          int inlen = xcint_vars(fun->vars).len;
           ttype in[XC_MAX_INVARS], out = 0;
           for (int i = 0; i < inlen; i++)
             in[i] = input[i];
@@ -564,7 +564,7 @@ void xcfun_eval(const XCFunctional * fun, const double input[], double output[])
       // getting expensive..
       case 3: {
         typedef ctaylor<ireal_t, 3> ttype;
-        int inlen = xcint_vars[fun->vars].len;
+        int inlen = xcint_vars(fun->vars).len;
         ttype in[XC_MAX_INVARS], out = 0;
         for (int i = 0; i < inlen; i++)
           in[i] = input[i];
@@ -591,7 +591,7 @@ void xcfun_eval(const XCFunctional * fun, const double input[], double output[])
 #endif
       case 2: {
         typedef ctaylor<ireal_t, 2> ttype;
-        int inlen = xcint_vars[fun->vars].len;
+        int inlen = xcint_vars(fun->vars).len;
         ttype in[XC_MAX_INVARS], out = 0;
         for (int i = 0; i < inlen; i++)
           in[i] = input[i];
@@ -621,7 +621,7 @@ void xcfun_eval(const XCFunctional * fun, const double input[], double output[])
 #define DOEVAL(N, E)                                                                \
   if (fun->order == N) {                                                            \
     typedef ctaylor<ireal_t, N> ttype;                                              \
-    int inlen = xcint_vars[fun->vars].len;                                          \
+    int inlen = xcint_vars(fun->vars).len;                                          \
     ttype in[XC_MAX_INVARS], out = 0;                                               \
     int k = 0;                                                                      \
     for (int i = 0; i < inlen; i++)                                                 \
@@ -638,7 +638,7 @@ void xcfun_eval(const XCFunctional * fun, const double input[], double output[])
     XCFun_ERROR("bug! Order too high in XC_CONTRACTED");
   } else if (fun->mode == XC_POTENTIAL) {
     // TODO: We shouldn't need the second density derivatives internally
-    int inlen = xcint_vars[fun->vars].len;
+    int inlen = xcint_vars(fun->vars).len;
     int npot; // One or two potentials
     int inpos = 0;
     if (inlen == 1 || inlen == 10)
