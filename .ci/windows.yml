@@ -2,9 +2,9 @@ jobs:
 
   # Configure, build, install, and test job
   - job: 'windows_build'
-    displayName: 'Windows VS2015'
+    displayName: 'Windows VS2017'
     pool:
-      vmImage: 'vs2015-win2012r2'
+      vmImage: 'vs2017-win2016'
     steps:
       # Install Chocolatey (https://chocolatey.org/install#install-with-powershellexe)
       - powershell: |
@@ -107,6 +107,6 @@ jobs:
           cmake --build . ^
                 --config Release
           ctest
-        displayName: "Build C++ host example"
+        displayName: "Build C host example"
         workingDirectory: $(Build.BinariesDirectory)
 
