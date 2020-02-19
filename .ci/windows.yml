@@ -48,6 +48,8 @@ jobs:
           setlocal EnableDelayedExpansion
           mkdir build & cd build
           cmake -G Ninja ^
+                -DCMAKE_CXX_COMPILER="cl.exe" ^
+                -DMSVC_TOOLSET_VERSION=150 ^
                 -DCMAKE_BUILD_TYPE=Release ^
                 -DCMAKE_INSTALL_PREFIX=../Software/xcfun ^
                 -DXCFUN_PYTHON_INTERFACE=ON ^
@@ -85,6 +87,8 @@ jobs:
           cd examples/CXX_host
           mkdir build & cd build
           cmake -G Ninja ^
+                -DCMAKE_CXX_COMPILER="cl.exe" ^
+                -DMSVC_TOOLSET_VERSION=150 ^
                 -DCMAKE_BUILD_TYPE=Release ^
                 -DXCFun_DIR=$(Build.BinariesDirectory)\Software\xcfun\share\cmake\XCFun ^
                 $(Build.SourcesDirectory)
@@ -100,6 +104,8 @@ jobs:
           cd examples/C_host
           mkdir build & cd build
           cmake -G Ninja ^
+                -DCMAKE_C_COMPILER="cl.exe" ^
+                -DMSVC_TOOLSET_VERSION=150 ^
                 -DCMAKE_BUILD_TYPE=Release ^
                 -DXCFun_DIR=$(Build.BinariesDirectory)\Software\xcfun\share\cmake\XCFun ^
                 $(Build.SourcesDirectory)
