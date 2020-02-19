@@ -47,7 +47,7 @@ jobs:
       - script: |
           setlocal EnableDelayedExpansion
           mkdir build & cd build
-          cmake -G 'Visual Studio 15 2017 Win64' ^
+          cmake -A Win64 ^
                 -DCMAKE_BUILD_TYPE=Release ^
                 -DCMAKE_INSTALL_PREFIX=../Software/xcfun ^
                 -DXCFUN_PYTHON_INTERFACE=ON ^
@@ -66,7 +66,7 @@ jobs:
       # Test (ctest)
       - script: |
           setlocal EnableDelayedExpansion
-          ctest --build-config %CMAKE_BUILD_TYPE% ^
+          ctest --build-config Release ^
                 --output-on-failure ^
                 --verbose
         displayName: "Test XCFun with CTest"
@@ -84,7 +84,7 @@ jobs:
           setlocal EnableDelayedExpansion
           cd examples/CXX_host
           mkdir build & cd build
-          cmake -G 'Visual Studio 15 2017 Win64' ^
+          cmake -A Win64 ^
                 -DCMAKE_BUILD_TYPE=Release ^
                 -DXCFun_DIR=$(Build.BinariesDirectory)\Software\xcfun\share\cmake\XCFun ^
                 $(Build.SourcesDirectory)
@@ -99,7 +99,7 @@ jobs:
           setlocal EnableDelayedExpansion
           cd examples/C_host
           mkdir build & cd build
-          cmake -G 'Visual Studio 15 2017 Win64' ^
+          cmake -A Win64 ^
                 -DCMAKE_BUILD_TYPE=Release ^
                 -DXCFun_DIR=$(Build.BinariesDirectory)\Software\xcfun\share\cmake\XCFun ^
                 $(Build.SourcesDirectory)
