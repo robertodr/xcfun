@@ -1,6 +1,6 @@
 configure_file(
   ${CMAKE_CURRENT_LIST_DIR}/xcfun.h
-  ${PROJECT_BINARY_DIR}/${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}/xcfun.h
+  ${PROJECT_BINARY_DIR}/include/${PROJECT_NAME}/xcfun.h
   COPYONLY
   )
 
