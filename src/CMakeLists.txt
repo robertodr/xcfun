@@ -67,7 +67,7 @@ if(NOT STATIC_LIBRARY_ONLY)
     )
   target_include_directories(xcfun-shared
     INTERFACE
-      $<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/${CMAKE_INSTALL_INCLUDEDIR}>
+      $<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/include>
       $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
     )
   target_link_libraries(xcfun-shared
@@ -106,7 +106,7 @@ if(NOT SHARED_LIBRARY_ONLY)
     )
   target_include_directories(xcfun-static
     INTERFACE
-      $<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/${CMAKE_INSTALL_INCLUDEDIR}>
+      $<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/include>
       $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
     )
   target_link_libraries(xcfun-static
