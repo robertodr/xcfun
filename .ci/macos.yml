@@ -7,7 +7,7 @@ steps:
   - task: CMake@1
     inputs:
       workingDirectory: 'build'
-      cmakeArgs: '-GNinja -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../Software/xcfun ..'
+      cmakeArgs: '-DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../Software/xcfun ..'
 
   # Test (ctest)
   - script: |
