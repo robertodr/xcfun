@@ -18,53 +18,45 @@ steps:
       cmake --build build ^
             --config Release ^
             --target install ^
-            -- -verbosity:diagnostic
+            -- -verbosity:normal
     displayName: "Build XCFun"
 
   # Test (ctest)
   - script: |
-      ctest --build-config Release ^
+      cd build
+      ctest --config Release ^
             --output-on-failure ^
             --verbose
     displayName: "Test XCFun with CTest"
 
-  # Test Python module can be imported
-  - script: |
-      set PYTHONPATH=$(Build.BinariesDirectory)\Software\xcfun\lib;%PYTHONPATH%
-      python -c "import xcfun; print(xcfun.xcfun_splash())"
-    displayName: "Test XCFun Python module"
-    workingDirectory: $(Build.BinariesDirectory)
+  ## Test Python module can be imported
+  #- script: |
+  #    set PYTHONPATH=.\Software\xcfun\lib;%PYTHONPATH%
+  #    python -c "import xcfun; print(xcfun.xcfun_splash())"
+  #  displayName: "Test XCFun Python module"
 
   # Test we can build the C++ example
+  - task: CMake@1
+    inputs:
+      workingDirectory: 'build_CXX_host'
+      cmakeArgs: '-DCMAKE_BUILD_TYPE=Release -DXCFun_DIR=..\..\Software\xcfun\share\cmake\XCFun ..\examples\CXX_host'
+
   - script: |
-      setlocal EnableDelayedExpansion
-      cd examples/CXX_host
-      mkdir build & cd build
-      cmake -G Ninja ^
-            -DCMAKE_CXX_COMPILER="cl.exe" ^
-            -DMSVC_TOOLSET_VERSION=150 ^
-            -DCMAKE_BUILD_TYPE=Release ^
-            -DXCFun_DIR=$(Build.BinariesDirectory)\Software\xcfun\share\cmake\XCFun ^
-            $(Build.SourcesDirectory)
+      cd build_CXX_host
       cmake --build . ^
             --config Release
       ctest
-    displayName: "Build C++ host example"
-    workingDirectory: $(Build.BinariesDirectory)
+    displayName: "Build and test C++ host example"
 
   # Test we can build the C example
+  - task: CMake@1
+    inputs:
+      workingDirectory: 'build_C_host'
+      cmakeArgs: '-DCMAKE_BUILD_TYPE=Release -DXCFun_DIR=..\..\Software\xcfun\share\cmake\XCFun ..\examples\C_host'
+
   - script: |
-      setlocal EnableDelayedExpansion
-      cd examples/C_host
-      mkdir build & cd build
-      cmake -G Ninja ^
-            -DCMAKE_C_COMPILER="cl.exe" ^
-            -DMSVC_TOOLSET_VERSION=150 ^
-            -DCMAKE_BUILD_TYPE=Release ^
-            -DXCFun_DIR=$(Build.BinariesDirectory)\Software\xcfun\share\cmake\XCFun ^
-            $(Build.SourcesDirectory)
+      cd build_C_host
       cmake --build . ^
             --config Release
       ctest
-    displayName: "Build C host example"
-    workingDirectory: $(Build.BinariesDirectory)
+    displayName: "Build and test C host example"
