@@ -27,6 +27,7 @@ steps:
       ctest --config Release ^
             --output-on-failure ^
             --verbose
+      type ..\Software\xcfun\CMake\XCFunConfig.cmake
     displayName: "Test XCFun with CTest"
 
   ## Test Python module can be imported
