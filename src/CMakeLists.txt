@@ -61,7 +61,7 @@ if(NOT STATIC_LIBRARY_ONLY)
     )
   target_compile_definitions(xcfun-shared
     PUBLIC
-      XCFun_EXPORTS
+      xcfun_EXPORTS
     INTERFACE
       $<INSTALL_INTERFACE:USING_XCFun>
     )
