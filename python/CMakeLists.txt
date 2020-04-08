@@ -3,7 +3,7 @@ pybind11_add_module(_xcfun MODULE THIN_LTO export_xcfun.cpp)
 
 target_link_libraries(_xcfun
   PRIVATE
-    XCFun
+    xcfun-shared
   )
 
 target_include_directories(_xcfun
