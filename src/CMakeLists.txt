@@ -31,8 +31,9 @@ target_compile_options(xcfun
     "$<$<BOOL:${ENABLE_CODE_COVERAGE}>:${XCFun_CXX_FLAGS_COVERAGE}>"
   )
 target_compile_definitions(xcfun
-  PUBLIC
+  PRIVATE
     xcfun_EXPORTS
+  PUBLIC
     XCFUN_MAX_ORDER=${XCFUN_MAX_ORDER}
   )
 target_include_directories(xcfun
@@ -60,8 +61,6 @@ if(NOT STATIC_LIBRARY_ONLY)
     $<TARGET_OBJECTS:xcfun>
     )
   target_compile_definitions(xcfun-shared
-    PUBLIC
-      xcfun_EXPORTS
     INTERFACE
       $<INSTALL_INTERFACE:USING_XCFun>
     )
@@ -99,8 +98,6 @@ if(NOT SHARED_LIBRARY_ONLY)
     $<TARGET_OBJECTS:xcfun>
     )
   target_compile_definitions(xcfun-static
-    PUBLIC
-      XCFun_STATIC_DEFINE
     INTERFACE
       $<INSTALL_INTERFACE:USING_XCFun>
     )
