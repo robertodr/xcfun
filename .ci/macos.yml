@@ -1,0 +1,63 @@
+steps:
+  - task: UsePythonVersion@0
+    inputs:
+      versionSpec: '$(python.version)'
+    displayName: "Using Python version: $(python.version)"
+
+  - task: CMake@1
+    inputs:
+      workingDirectory: 'build'
+      cmakeArgs: '-GNinja -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../Software/xcfun ..'
+
+  # Test (ctest)
+  - script: |
+      cmake --build build --target install -- -v -d stats
+    displayName: "Build XCFun"
+
+  # Test (ctest)
+  - script: |
+      cd build
+      ctest --output-on-failure --verbose
+    displayName: "Test XCFun with CTest"
+
+  # Test Python module can be imported
+  - script: |
+      set PYTHONPATH=$(Build.BinariesDirectory)\Software\xcfun\lib;%PYTHONPATH%
+      python -c "import xcfun; print(xcfun.xcfun_splash())"
+    displayName: "Test XCFun Python module"
+    workingDirectory: $(Build.BinariesDirectory)
+
+  # Test we can build the C++ example
+  - script: |
+      setlocal EnableDelayedExpansion
+      cd examples/CXX_host
+      mkdir build & cd build
+      cmake -G Ninja ^
+            -DCMAKE_CXX_COMPILER="cl.exe" ^
+            -DMSVC_TOOLSET_VERSION=150 ^
+            -DCMAKE_BUILD_TYPE=Release ^
+            -DXCFun_DIR=$(Build.BinariesDirectory)\Software\xcfun\share\cmake\XCFun ^
+            $(Build.SourcesDirectory)
+      cmake --build . ^
+            --config Release
+      ctest
+    displayName: "Build C++ host example"
+    workingDirectory: $(Build.BinariesDirectory)
+
+  # Test we can build the C example
+  - script: |
+      setlocal EnableDelayedExpansion
+      cd examples/C_host
+      mkdir build & cd build
+      cmake -G Ninja ^
+            -DCMAKE_C_COMPILER="cl.exe" ^
+            -DMSVC_TOOLSET_VERSION=150 ^
+            -DCMAKE_BUILD_TYPE=Release ^
+            -DXCFun_DIR=$(Build.BinariesDirectory)\Software\xcfun\share\cmake\XCFun ^
+            $(Build.SourcesDirectory)
+      cmake --build . ^
+            --config Release
+      ctest
+    displayName: "Build C host example"
+    workingDirectory: $(Build.BinariesDirectory)
+
