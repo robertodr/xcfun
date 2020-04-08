@@ -27,12 +27,11 @@ steps:
       ctest --config Release ^
             --output-on-failure ^
             --verbose
-      type ..\Software\xcfun\CMake\XCFunConfig.cmake
     displayName: "Test XCFun with CTest"
 
   # Test Python module can be imported
   - script: |
-      set PYTHONPATH=.\Software\xcfun\lib;%PYTHONPATH%
+      set PYTHONPATH=.\Software\xcfun\lib\python;%PYTHONPATH%
       python -c "import xcfun; print(xcfun.xcfun_splash())"
     displayName: "Test XCFun Python module"
 
