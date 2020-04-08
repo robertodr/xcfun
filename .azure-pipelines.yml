@@ -1,6 +1,6 @@
 jobs:
 
-- job: 'Windows 64'
+- job: 'Windows_64'
   pool:
     vmImage: 'windows-latest'
   strategy:
