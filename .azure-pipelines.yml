@@ -11,8 +11,6 @@ jobs:
         python.version: '3.7'
       Python36:
         python.version: '3.6'
-      Python27:
-        python.version: '2.7'
     maxParallel: 2
   steps:
   - template: ./.ci/macos.yml
@@ -28,8 +26,6 @@ jobs:
         python.version: '3.7'
       Python36:
         python.version: '3.6'
-      Python27:
-        python.version: '2.7'
     maxParallel: 2
   steps:
   - template: ./.ci/windows.yml

@@ -1,5 +1,4 @@
-# FIXME Remove when we finally become Python 3 only
-set(PYBIND11_PYTHON_VERSION 2.7)
+set(PYBIND11_PYTHON_VERSION 3.6)
 
 if(MSVC)
   set(PYBIND11_CPP_STANDARD "/std:c++${CMAKE_CXX_STANDARD}")
