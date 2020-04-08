@@ -60,7 +60,7 @@ int main(int, char **) {
   //----------------------------------------------------------------------------
   // in the first example we compute the XC energy ("order 0 derivative")
   {
-    const auto order = 0;
+    constexpr auto order = 0;
     // XC_CONTRACTED here has nothing to do with contracted basis sets
     // it means we will evaluated in the XC_CONTRACTED mode and internally
     // contract functional derivatives with the density taylor expansion
@@ -70,7 +70,8 @@ int main(int, char **) {
     if (ierr)
       std::cout << "xcfun_eval_setup failed" << std::endl;
 
-    auto vector_length = 1 << order; // bit shift to get power of two: 2**order
+    constexpr auto vector_length =
+        1 << order; // bit shift to get power of two: 2**order
     double density[vector_length][num_density_variables][num_grid_points];
 
     for (auto i = 0; i < num_grid_points; i++) {
@@ -94,12 +95,13 @@ int main(int, char **) {
   // now we will compute the first derivatives ('potential')
   // and contract them with the first order densities
   {
-    const auto order = 1;
+    constexpr auto order = 1;
     auto ierr = xcfun_eval_setup(fun, XC_N_NX_NY_NZ, XC_CONTRACTED, order);
     if (ierr)
       std::cout << "xcfun_eval_setup failed" << std::endl;
 
-    auto vector_length = 1 << order; // bit shift to get power of two: 2**order
+    constexpr auto vector_length =
+        1 << order; // bit shift to get power of two: 2**order
     double density[vector_length][num_density_variables][num_grid_points];
 
     for (auto i = 0; i < num_grid_points; i++) {
@@ -129,12 +131,12 @@ int main(int, char **) {
   // the density variable of interest to 1, and set other perturbed
   // densities to 0
   {
-    const auto order = 1;
+    constexpr auto order = 1;
     auto ierr = xcfun_eval_setup(fun, XC_N_NX_NY_NZ, XC_CONTRACTED, order);
     if (ierr)
       std::cout << "xcfun_eval_setup failed" << std::endl;
 
-    const auto vector_length = 1 << order; // bit shift to get 2**order
+    constexpr auto vector_length = 1 << order; // bit shift to get 2**order
     double density[vector_length][num_density_variables][num_grid_points];
 
     for (auto i = 0; i < num_grid_points; i++) {
@@ -160,12 +162,12 @@ int main(int, char **) {
   //----------------------------------------------------------------------------
   // now we try 2nd order
   {
-    const auto order = 2;
+    constexpr auto order = 2;
     auto ierr = xcfun_eval_setup(fun, XC_N_NX_NY_NZ, XC_CONTRACTED, order);
     if (ierr)
       std::cout << "xcfun_eval_setup failed" << std::endl;
 
-    const auto vector_length = 1 << order; // bit shift to get 2**order
+    constexpr auto vector_length = 1 << order; // bit shift to get 2**order
     double density[vector_length][num_density_variables][num_grid_points];
 
     for (auto i = 0; i < num_grid_points; i++) {
@@ -199,12 +201,13 @@ int main(int, char **) {
   //----------------------------------------------------------------------------
   // now we try 3nd order, contracted with perturbed densities
   {
-    const auto order = 3;
+    constexpr auto order = 3;
     auto ierr = xcfun_eval_setup(fun, XC_N_NX_NY_NZ, XC_CONTRACTED, order);
     if (ierr)
       std::cout << "xcfun_eval_setup failed" << std::endl;
 
-    auto vector_length = 1 << order; // bit shift to get power of two: 2**order
+    constexpr auto vector_length =
+        1 << order; // bit shift to get power of two: 2**order
     double density[vector_length][num_density_variables][num_grid_points];
 
     for (auto i = 0; i < num_grid_points; i++) {
