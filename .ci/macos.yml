@@ -1,6 +1,6 @@
 steps:
   - script: |
-      brew install ninja gfortran
+      brew install ninja gcc
     displayName: "Brew install dependencies"
 
   - task: UsePythonVersion@0
