@@ -32,7 +32,7 @@ target_compile_options(xcfun
   )
 target_compile_definitions(xcfun
   PUBLIC
-    XCFun_EXPORTS
+    xcfun_EXPORTS
     XCFUN_MAX_ORDER=${XCFUN_MAX_ORDER}
   )
 target_include_directories(xcfun
