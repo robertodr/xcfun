@@ -1,7 +1,12 @@
 steps:
   - script: |
-      brew install ninja gcc
+      brew install ninja
+      brew reinstall gcc
     displayName: "Brew install dependencies"
+
+  - script: |
+      python -m pip install --upgrade pip pytest numpy
+    displayName: 'Pip install Python dependencies'
 
   - task: UsePythonVersion@0
     inputs:
