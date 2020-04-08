@@ -31,7 +31,7 @@ steps:
 
   # Test Python module can be imported
   - script: |
-      set PYTHONPATH=$(Build.BinariesDirectory)\Software\xcfun\lib;%PYTHONPATH%
+      set PYTHONPATH=../Software/xcfun/lib:$PYTHONPATH
       python -c "import xcfun; print(xcfun.xcfun_splash())"
     displayName: "Test XCFun Python module"
 
