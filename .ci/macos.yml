@@ -1,5 +1,4 @@
 steps:
-  steps:
   - script: |
       brew install ninja gfortran
     displayName: "Brew install dependencies"
