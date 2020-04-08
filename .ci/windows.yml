@@ -17,7 +17,8 @@ steps:
   - script: |
       cmake --build build ^
             --config Release ^
-            --target install  
+            --target install ^
+            -- /verbosity:normal 
     displayName: "Build XCFun"
 
   # Test (ctest)
@@ -68,4 +69,3 @@ steps:
       ctest
     displayName: "Build C host example"
     workingDirectory: $(Build.BinariesDirectory)
-
