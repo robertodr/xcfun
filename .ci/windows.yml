@@ -40,7 +40,7 @@ steps:
   - task: CMake@1
     inputs:
       workingDirectory: 'build_CXX_host'
-      cmakeArgs: '--debug-output -A x64 -DXCFun_DIR=..\..\Software\xcfun\CMake ..\examples\CXX_host'
+      cmakeArgs: '--debug-output --trace-expand -A x64 -DXCFun_DIR=..\..\Software\xcfun\CMake ..\examples\CXX_host'
 
   - script: |
       cd build_CXX_host
