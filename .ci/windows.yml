@@ -4,6 +4,10 @@ steps:
       versionSpec: '$(python.version)'
     displayName: "Using Python version: $(python.version)"
 
+  - script: |
+      python -m pip install --upgrade pip pytest numpy
+    displayName: 'Pip install Python dependencies'
+
   - task: CMake@1
     inputs:
       workingDirectory: 'build'
@@ -12,7 +16,7 @@ steps:
   # Build
   - script: |
       cmake --build build ^
-            --configuration Release ^
+            --config Release ^
             --target install  
     displayName: "Build XCFun"
 
