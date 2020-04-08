@@ -7,17 +7,17 @@ steps:
   - task: CMake@1
     inputs:
       workingDirectory: 'build'
-      cmakeArgs: '-A x64 -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../Software/xcfun ..'
+      cmakeArgs: '-A x64 -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=..\Software\xcfun -DXCFUN_PYTHON_INTERFACE=ON ..'
 
-  - task: MSBuild@1
-    inputs:
-      solution: 'build/ALL_BUILD.vcxproj'
-      maximumCpuCount: true
-      platform: 'x64'
+  # Build
+  - script: |
+      cmake --build build ^
+            --configuration Release ^
+            --target install  
+    displayName: "Build XCFun"
 
   # Test (ctest)
   - script: |
-      setlocal EnableDelayedExpansion
       ctest --build-config Release ^
             --output-on-failure ^
             --verbose

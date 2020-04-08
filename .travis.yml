@@ -51,24 +51,6 @@ matrix:
         - BUILD_TYPE='Release'
         - COVERAGE=OFF
         - PYBIND11='-Dpybind11_DIR=$HOME/Deps/pybind11/share/cmake/pybind11'
-    # OSX Clang Builds
-    - os: osx
-      osx_image: xcode11.2  # Python 3.7.4 running on macOS 10.14.4
-      compiler: clang
-      language: shell       # 'language: python' is an error on Travis CI macOS
-      addons:
-        homebrew:
-          packages:
-            - cmake
-            - pipenv
-          update: true
-      env:
-        - CXX_COMPILER='clang++'
-        - C_COMPILER='clang'
-        - Fortran_COMPILER='gfortran'
-        - BUILD_TYPE='Release'
-        - COVERAGE=OFF
-        - PYBIND11='-Dpybind11_DIR=$HOME/Deps/pybind11/share/cmake/pybind11'
     # Linux GCC Coverage build
     - os: linux
       python: 3.6
