@@ -9,7 +9,7 @@ jobs:
       - task: CMake@1
         inputs:
           workingDirectory: 'build'
-          cmakeArgs: '-A x64 -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../Software/xcfun -DXCFUN_PYTHON_INTERFACE=ON'
+          cmakeArgs: '-A x64 -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../Software/xcfun -DXCFUN_PYTHON_INTERFACE=ON ..'
 
 
       # Install Chocolatey (https://chocolatey.org/install#install-with-powershellexe)
