@@ -20,7 +20,7 @@ steps:
 
   # Test (ctest)
   - script: |
-      cmake --build build --target install -- -v -d stats
+      cmake --build build --target install -- -v -d stats -j 4
     displayName: "Build XCFun"
 
   # Test (ctest)
@@ -31,7 +31,9 @@ steps:
 
   # Test Python module can be imported
   - script: |
-      env PYTHONPATH=./Software/xcfun/lib:$PYTHONPATH python -c "import xcfun; print(xcfun.xcfun_splash())"
+      ls Software/xcfun
+      ls Software/xcfun/lib
+      env PYTHONPATH=./Software/xcfun/lib/python:$PYTHONPATH python -c "import xcfun; print(xcfun.xcfun_splash())"
     displayName: "Test XCFun Python module"
 
   # Test we can build the C++ example
@@ -54,7 +56,7 @@ steps:
 
   - script: |
       cd build_C_host
-      cmake --build . -- -v -d stats 
+      cmake --build . -- -v -d stats  
       ctest
     displayName: "Build and test C host example"
 
