@@ -18,7 +18,7 @@ steps:
       cmake --build build ^
             --config Release ^
             --target install ^
-            -- /verbosity:normal 
+            -- -verbosity:diagnostic 
     displayName: "Build XCFun"
 
   # Test (ctest)
