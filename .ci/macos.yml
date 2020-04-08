@@ -11,7 +11,7 @@ steps:
 
   # Test (ctest)
   - script: |
-      cmake --build build --target install -- -v -d stats
+      cmake --build build --target install -- VERBOSE=1
     displayName: "Build XCFun"
 
   # Test (ctest)
