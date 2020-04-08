@@ -39,7 +39,7 @@ steps:
   - task: CMake@1
     inputs:
       workingDirectory: 'build_CXX_host'
-      cmakeArgs: '-DCMAKE_BUILD_TYPE=Release -DXCFun_DIR=..\..\Software\xcfun\share\cmake\XCFun ..\examples\CXX_host'
+      cmakeArgs: '-A x64 -DCMAKE_BUILD_TYPE=Release -DXCFun_DIR=..\..\Software\xcfun\share\cmake\XCFun ..\examples\CXX_host'
 
   - script: |
       cd build_CXX_host
@@ -52,7 +52,7 @@ steps:
   - task: CMake@1
     inputs:
       workingDirectory: 'build_C_host'
-      cmakeArgs: '-DCMAKE_BUILD_TYPE=Release -DXCFun_DIR=..\..\Software\xcfun\share\cmake\XCFun ..\examples\C_host'
+      cmakeArgs: '-A x64 -DCMAKE_BUILD_TYPE=Release -DXCFun_DIR=..\..\Software\xcfun\share\cmake\XCFun ..\examples\C_host'
 
   - script: |
       cd build_C_host
