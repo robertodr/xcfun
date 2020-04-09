@@ -21,9 +21,7 @@ set_target_properties(xcfun
     POSITION_INDEPENDENT_CODE 1
   )
 target_compile_options(xcfun
-  # FIXME These should be PUBLIC, but then Fortran inherits flags it doesn't
-  # understand...
-  PRIVATE
+  PUBLIC
     "${XCFun_CXX_FLAGS}"
   PRIVATE
     "$<$<CONFIG:Debug>:${XCFun_CXX_FLAGS_DEBUG}>"
@@ -31,8 +29,6 @@ target_compile_options(xcfun
     "$<$<BOOL:${ENABLE_CODE_COVERAGE}>:${XCFun_CXX_FLAGS_COVERAGE}>"
   )
 target_compile_definitions(xcfun
-  PRIVATE
-    xcfun_EXPORTS
   PUBLIC
     XCFUN_MAX_ORDER=${XCFUN_MAX_ORDER}
   )
@@ -77,9 +73,11 @@ if(NOT STATIC_LIBRARY_ONLY)
     PROPERTIES
       VERSION ${PROJECT_VERSION_MAJOR}
       SOVERSION ${PROJECT_VERSION_MAJOR}
+      CXX_VISIBILITY_PRESET hidden
+      VISIBILITY_INLINES_HIDDEN 1
       MACOSX_RPATH ON
       OUTPUT_NAME "xcfun"
-      EXPORT_NAME "xcfun"
+      DEBUG_POSTFIX "_d"
     )
   install(
     TARGETS
@@ -112,8 +110,10 @@ if(NOT SHARED_LIBRARY_ONLY)
     )
   set_target_properties(xcfun-static
     PROPERTIES
+      ARCHIVE_OUTPUT_NAME "xcfun"
       OUTPUT_NAME "xcfun"
-      EXPORT_NAME "xcfun"
+      DEBUG_POSTFIX "_sd"
+      RELEASE_POSTFIX "_s"
     )
   install(
     TARGETS
