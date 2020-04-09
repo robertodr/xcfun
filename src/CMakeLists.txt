@@ -1,6 +1,7 @@
-add_library(xcfun
-  XCFunctional.cpp
-  xcint.cpp
+add_library(xcfun-objlib
+  OBJECT
+    XCFunctional.cpp
+    xcint.cpp
   )
 
 set_property(GLOBAL APPEND
@@ -16,7 +17,7 @@ set_property(GLOBAL APPEND
 add_subdirectory(functionals)
 
 include(GenerateExportHeader)
-generate_export_header(xcfun
+generate_export_header(xcfun-objlib
   BASE_NAME "XCFun"
   EXPORT_MACRO_NAME "XCFun_EXPORT"
   EXPORT_FILE_NAME "${PROJECT_BINARY_DIR}/${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}/XCFunExport.h"
@@ -27,7 +28,7 @@ generate_export_header(xcfun
   DEFINE_NO_DEPRECATED
   )
 
-target_compile_options(xcfun
+target_compile_options(xcfun-objlib
   PRIVATE
     "${XCFun_CXX_FLAGS}"
     "$<$<CONFIG:Debug>:${XCFun_CXX_FLAGS_DEBUG}>"
@@ -35,24 +36,19 @@ target_compile_options(xcfun
     "$<$<BOOL:${ENABLE_CODE_COVERAGE}>:${XCFun_CXX_FLAGS_COVERAGE}>"
   )
 
-target_compile_definitions(xcfun
+target_compile_definitions(xcfun-objlib
   PUBLIC
     XCFUN_MAX_ORDER=${XCFUN_MAX_ORDER}
-  INTERFACE
-    $<INSTALL_INTERFACE:USING_XCFun>
   )
 
-target_include_directories(xcfun
+target_include_directories(xcfun-objlib
   PRIVATE
     ${PROJECT_SOURCE_DIR}/api
     ${PROJECT_BINARY_DIR}/include
     ${CMAKE_CURRENT_SOURCE_DIR}
-  INTERFACE
-    $<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/${CMAKE_INSTALL_INCLUDEDIR}>
-    $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
   )
 
-target_include_directories(xcfun
+target_include_directories(xcfun-objlib
   SYSTEM
   PRIVATE
     ${PROJECT_SOURCE_DIR}/external/upstream/taylor
@@ -60,13 +56,30 @@ target_include_directories(xcfun
 
 get_property(public_headers GLOBAL PROPERTY public_headers_property)
 
-set_target_properties(xcfun
+set_target_properties(xcfun-objlib
   PROPERTIES
     POSITION_INDEPENDENT_CODE 1
-    VERSION ${PROJECT_VERSION_MAJOR}
-    SOVERSION ${PROJECT_VERSION_MAJOR}
     CXX_VISIBILITY_PRESET hidden
     VISIBILITY_INLINES_HIDDEN 1
+  )
+
+add_library(xcfun $<TARGET_OBJECTS:xcfun-objlib>)
+
+target_compile_definitions(xcfun-objlib
+  INTERFACE
+    $<INSTALL_INTERFACE:USING_XCFun>
+  )
+
+target_include_directories(xcfun
+  INTERFACE
+    $<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/${CMAKE_INSTALL_INCLUDEDIR}>
+    $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+  )
+
+set_target_properties(xcfun
+  PROPERTIES
+    VERSION ${PROJECT_VERSION_MAJOR}
+    SOVERSION ${PROJECT_VERSION_MAJOR}
     MACOSX_RPATH ON
     OUTPUT_NAME "xcfun"
     DEBUG_POSTFIX "_d"

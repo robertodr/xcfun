@@ -1,6 +1,6 @@
 pybind11_add_module(_xcfun MODULE THIN_LTO
   export_xcfun.cpp
-  $<TARGET_OBJECTS:xcfun>
+  $<TARGET_OBJECTS:xcfun-objlib>
   )
 
 target_include_directories(_xcfun
