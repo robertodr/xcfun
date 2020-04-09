@@ -39,13 +39,13 @@ steps:
   - task: CMake@1
     inputs:
       workingDirectory: 'build_CXX_host'
-      cmakeArgs: '--debug-output --trace-expand -A x64 -DXCFun_DIR=..\..\Software\xcfun\CMake ..\examples\CXX_host'
+      cmakeArgs: '-A x64 -DXCFun_DIR=..\..\Software\xcfun\CMake ..\examples\CXX_host'
 
   - script: |
       cd build_CXX_host
       cmake --build . ^
-            --config Release
-      ctest
+            --config Release ^
+            --target RUN_TESTS
     displayName: "Build and test C++ host example"
 
   # Test we can build the C example
@@ -57,6 +57,7 @@ steps:
   - script: |
       cd build_C_host
       cmake --build . ^
-            --config Release
+            --config Release ^
+            --target RUN_TESTS
       ctest
     displayName: "Build and test C host example"

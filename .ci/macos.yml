@@ -20,7 +20,9 @@ steps:
 
   # Build
   - script: |
-      cmake --build build --target install -- -v -d stats
+      cmake --build build ^
+            --target install ^
+            -- -v -d stats
     displayName: "Build XCFun"
 
   # Test (ctest)
@@ -38,34 +40,34 @@ steps:
   - task: CMake@1
     inputs:
       workingDirectory: 'build_CXX_host'
-      cmakeArgs: '-GNinja -DCMAKE_BUILD_TYPE=Release -DXCFun_DIR=../../Software/xcfun/share/cmake/XCFun ../examples/CXX_host'
+      cmakeArgs: '-GNinja -DXCFun_DIR=../../Software/xcfun/share/cmake/XCFun ../examples/CXX_host'
 
   - script: |
-      cd build_CXX_host
-      cmake --build . -- -v -d stats 
-      ctest
+      cmake --build build_CXX_host ^
+            --target test ^
+            -- -v -d stats
     displayName: "Build and test C++ host example"
 
   # Test we can build the C example
   - task: CMake@1
     inputs:
       workingDirectory: 'build_C_host'
-      cmakeArgs: '-GNinja -DCMAKE_BUILD_TYPE=Release -DXCFun_DIR=../../Software/xcfun/share/cmake/XCFun ../examples/C_host'
+      cmakeArgs: '-GNinja -DXCFun_DIR=../../Software/xcfun/share/cmake/XCFun ../examples/C_host'
 
   - script: |
-      cd build_C_host
-      cmake --build . -- -v -d stats  
-      ctest
+      cmake --build build_C_host ^
+            --target test ^
+            -- -v -d stats
     displayName: "Build and test C host example"
 
   # Test we can build the Fortran example
   - task: CMake@1
     inputs:
       workingDirectory: 'build_Fortran_host'
-      cmakeArgs: '-GNinja -DCMAKE_BUILD_TYPE=Release -DXCFun_DIR=../../Software/xcfun/share/cmake/XCFun ../examples/Fortran_host'
+      cmakeArgs: '-GNinja -DXCFun_DIR=../../Software/xcfun/share/cmake/XCFun ../examples/Fortran_host'
 
   - script: |
-      cd build_Fortran_host
-      cmake --build . -- -v -d stats 
-      ctest
+      cmake --build build_Fortran_host ^
+            --target test ^
+            -- -v -d stats
     displayName: "Build and test Fortran host example"
