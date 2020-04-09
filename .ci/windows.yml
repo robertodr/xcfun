@@ -43,6 +43,8 @@ steps:
 
   - script: |
       cmake --build .\build_CXX_host ^
+            --config Release
+      cmake --build .\build_CXX_host ^
             --config Release ^
             --target RUN_TESTS
     displayName: "Build and test C++ host example"
@@ -54,6 +56,8 @@ steps:
       cmakeArgs: '-A x64 -DXCFun_DIR=..\..\Software\xcfun\CMake ..\examples\C_host'
 
   - script: |
+      cmake --build .\build_C_host ^
+            --config Release
       cmake --build .\build_C_host ^
             --config Release ^
             --target RUN_TESTS
