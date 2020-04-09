@@ -12,9 +12,11 @@
  * XCFun library, see: <https://xcfun.readthedocs.io/>
  */
 
+#include <array>
 #include <cmath>
 #include <cstdlib>
 #include <iostream>
+#include <vector>
 
 #include <XCFun/xcfun.h>
 
@@ -265,8 +267,9 @@ int main(int, char **) {
 double derivative(xcfun_t * fun,
                   int vector_length,
                   double density[][num_density_variables][num_grid_points]) {
-  double inp_array[vector_length * num_density_variables];
-  double out_array[num_grid_points][vector_length];
+  std::vector<double> inp_array(vector_length * num_density_variables, 0.0);
+  std::array<std::vector<double>, num_grid_points> out_array{
+      std::vector<double>(vector_length, 0.0)};
 
   // put the densities into the right places
   // along the input array
@@ -277,7 +280,7 @@ double derivative(xcfun_t * fun,
         inp_array[n++] = density[k][j][i];
       }
     }
-    xcfun_eval(fun, inp_array, out_array[i]);
+    xcfun_eval(fun, inp_array.data(), out_array[i].data());
   }
 
   // The output_array holds a Taylor series expansion
