@@ -15,8 +15,6 @@ set_property(GLOBAL APPEND
   )
 add_subdirectory(functionals)
 
-message("public_headers : ${public_headers}")
-
 include(GenerateExportHeader)
 generate_export_header(xcfun
   BASE_NAME "XCFun"
@@ -30,9 +28,8 @@ generate_export_header(xcfun
   )
 
 target_compile_options(xcfun
-  PUBLIC
-    "${XCFun_CXX_FLAGS}"
   PRIVATE
+    "${XCFun_CXX_FLAGS}"
     "$<$<CONFIG:Debug>:${XCFun_CXX_FLAGS_DEBUG}>"
     "$<$<CONFIG:Release>:${XCFun_CXX_FLAGS_RELEASE}>"
     "$<$<BOOL:${ENABLE_CODE_COVERAGE}>:${XCFun_CXX_FLAGS_COVERAGE}>"
