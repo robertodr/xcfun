@@ -31,6 +31,7 @@ if(XCFUN_PYTHON_INTERFACE)
   add_test(
     NAME python-interface
     COMMAND ${PYTHON_EXECUTABLE} -m pytest -x -rws -vv ${PROJECT_BINARY_DIR}/${PYMOD_INSTALL_FULLDIR}/tests
+    CONFIGURATIONS "Release;Debug"
     WORKING_DIRECTORY
       ${PROJECT_BINARY_DIR}/${PYMOD_INSTALL_FULLDIR}/..
     )
