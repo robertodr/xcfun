@@ -22,7 +22,6 @@ modules:
     - source:
       - 'custom/code_coverage.cmake'
       - 'custom/compilers/CXXFlags.cmake'
-      - 'custom/static_library.cmake'
   - src:
     - source:
       - 'custom/xcfun.cmake'

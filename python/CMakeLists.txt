@@ -1,4 +1,3 @@
-# create Python module
 pybind11_add_module(_xcfun MODULE THIN_LTO
   export_xcfun.cpp
   $<TARGET_OBJECTS:xcfun>
@@ -11,13 +10,6 @@ target_include_directories(_xcfun
     ${PROJECT_SOURCE_DIR}/external/upstream/taylor
   )
 
-file(RELATIVE_PATH _rel ${CMAKE_INSTALL_PREFIX}/${PYMOD_INSTALL_FULLDIR} ${CMAKE_INSTALL_PREFIX})
-if(APPLE)
-  set(XCFun_RPATH "@loader_path/${_rel}")
-else()
-  set(XCFun_RPATH "\$ORIGIN/${_rel}")
-endif()
-
 set_target_properties(_xcfun
   PROPERTIES
     PREFIX "${PYTHON_MODULE_PREFIX}"
@@ -25,7 +17,6 @@ set_target_properties(_xcfun
     MACOSX_RPATH ON
     SKIP_BUILD_RPATH OFF
     BUILD_WITH_INSTALL_RPATH OFF
-    INSTALL_RPATH "${XCFun_RPATH}${CMAKE_INSTALL_LIBDIR}"
     INSTALL_RPATH_USE_LINK_PATH ON
     LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/${PYMOD_INSTALL_FULLDIR}
     RESOURCE "${CMAKE_CURRENT_SOURCE_DIR}/__init__.py;${CMAKE_CURRENT_SOURCE_DIR}/xcfun.py"
