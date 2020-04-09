@@ -20,14 +20,11 @@ steps:
 
   # Build
   - script: |
-      cmake --build build ^
-            --target install ^
-            -- -v -d stats
+      cmake --build build --target install -- -v -d stats
     displayName: "Build XCFun"
 
   # Test (ctest)
   - script: |
-      cd build
       ctest --output-on-failure --verbose
     displayName: "Test XCFun with CTest"
 
@@ -43,9 +40,7 @@ steps:
       cmakeArgs: '-GNinja -DXCFun_DIR=../../Software/xcfun/share/cmake/XCFun ../examples/CXX_host'
 
   - script: |
-      cmake --build build_CXX_host ^
-            --target test ^
-            -- -v -d stats
+      cmake --build build_CXX_host --target test -- -v -d stats
     displayName: "Build and test C++ host example"
 
   # Test we can build the C example
@@ -55,9 +50,7 @@ steps:
       cmakeArgs: '-GNinja -DXCFun_DIR=../../Software/xcfun/share/cmake/XCFun ../examples/C_host'
 
   - script: |
-      cmake --build build_C_host ^
-            --target test ^
-            -- -v -d stats
+      cmake --build build_C_host --target test -- -v -d stats
     displayName: "Build and test C host example"
 
   # Test we can build the Fortran example
@@ -67,7 +60,5 @@ steps:
       cmakeArgs: '-GNinja -DXCFun_DIR=../../Software/xcfun/share/cmake/XCFun ../examples/Fortran_host'
 
   - script: |
-      cmake --build build_Fortran_host ^
-            --target test ^
-            -- -v -d stats
+      cmake --build build_Fortran_host --target test -- -v -d stats
     displayName: "Build and test Fortran host example"
