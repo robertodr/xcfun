@@ -19,12 +19,12 @@ add_subdirectory(functionals)
 include(GenerateExportHeader)
 generate_export_header(xcfun-objlib
   BASE_NAME "XCFun"
-  EXPORT_MACRO_NAME "XCFun_EXPORT"
+  EXPORT_MACRO_NAME "xcfun_EXPORT"
   EXPORT_FILE_NAME "${PROJECT_BINARY_DIR}/${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}/XCFunExport.h"
-  DEPRECATED_MACRO_NAME "XCFun_DEPRECATED"
-  NO_EXPORT_MACRO_NAME "XCFun_NO_EXPORT"
-  STATIC_DEFINE "XCFun_STATIC_DEFINE"
-  NO_DEPRECATED_MACRO_NAME "XCFun_NO_DEPRECATED"
+  DEPRECATED_MACRO_NAME "xcfun_DEPRECATED"
+  NO_EXPORT_MACRO_NAME "xcfun_NO_EXPORT"
+  STATIC_DEFINE "xcfun_STATIC_DEFINE"
+  NO_DEPRECATED_MACRO_NAME "xcfun_NO_DEPRECATED"
   DEFINE_NO_DEPRECATED
   )
 
@@ -39,6 +39,7 @@ target_compile_options(xcfun-objlib
 target_compile_definitions(xcfun-objlib
   PUBLIC
     XCFUN_MAX_ORDER=${XCFUN_MAX_ORDER}
+    xcfun_objlib_EXPORTS
   )
 
 target_include_directories(xcfun-objlib
