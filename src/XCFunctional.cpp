@@ -45,7 +45,10 @@ auto version_as_string() noexcept -> std::string {
 auto xcfun_get_version() noexcept -> unsigned int { return XCFun_VERSION; }
 } // namespace xcfun
 
-const char * xcfun_version() { return xcfun::version_as_string().c_str(); }
+const char * xcfun_version() {
+  static auto retval = xcfun::version_as_string();
+  return retval.c_str();
+}
 
 const char * xcfun_splash() {
   return "XCFun DFT library Copyright 2009-2020 Ulf Ekstrom and contributors.\n"

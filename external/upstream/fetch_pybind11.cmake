@@ -8,7 +8,7 @@ else()
   set(PYBIND11_CPP_STANDARD "-std=c++${CMAKE_CXX_STANDARD}")
 endif()
 
-set(PYBIND11_VERSION 2.3.0)
+set(PYBIND11_VERSION 2.5.0)
 
 find_package(pybind11 ${PYBIND11_VERSION} CONFIG QUIET)
 if(pybind11_FOUND)

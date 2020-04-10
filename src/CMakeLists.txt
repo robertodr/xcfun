@@ -59,6 +59,8 @@ set_property(GLOBAL APPEND
     ${CMAKE_CURRENT_SOURCE_DIR}/XCFunctional.hpp
   )
 
+get_property(public_headers GLOBAL PROPERTY public_headers_property)
+
 set_target_properties(xcfun
   PROPERTIES
     POSITION_INDEPENDENT_CODE 1
