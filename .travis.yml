@@ -95,6 +95,7 @@ before_script:
      -DENABLE_CODE_COVERAGE=${COVERAGE}
      -DXCFUN_PYTHON_INTERFACE=$([ "$COVERAGE" == "ON" ] && echo "OFF" || echo "ON")
      -DPYTHON_EXECUTABLE=$(which python)
+     -DBUILD_SHARED_LIBS=OFF
      -DCMAKE_INSTALL_PREFIX=$HOME/Software/xcfun
      ${PYBIND11}
 

@@ -24,8 +24,7 @@ steps:
   # Test (ctest)
   - script: |
       cd build
-      ctest --config Release ^
-            --output-on-failure ^
+      ctest --output-on-failure ^
             --verbose
     displayName: "Test XCFun with CTest"
 
