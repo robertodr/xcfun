@@ -14,7 +14,6 @@ target_compile_options(testall
 add_test(
   NAME testall
   COMMAND ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/testall
-  CONFIGURATIONS $<CONFIG>
   )
 
 if(XCFUN_PYTHON_INTERFACE)
@@ -35,7 +34,6 @@ if(XCFUN_PYTHON_INTERFACE)
   add_test(
     NAME python-interface
     COMMAND ${PYTHON_EXECUTABLE} -m pytest -x -rws -vv ${PROJECT_BINARY_DIR}/${PYMOD_INSTALL_FULLDIR}/tests
-    CONFIGURATIONS $<CONFIG>
     WORKING_DIRECTORY ${PROJECT_BINARY_DIR}/${PYMOD_INSTALL_FULLDIR}/..
     )
 

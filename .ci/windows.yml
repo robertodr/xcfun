@@ -36,9 +36,10 @@ steps:
       cmakeArgs: '-A x64 -DXCFun_DIR=..\..\Software\xcfun\CMake ..\examples\CXX_host'
 
   - script: |
-      cmake --build .\build_CXX_host ^
-            --config Release
       cd build_CXX_host
+      cmake --build . ^
+            --config Release ^
+            -- -verbosity:normal
       ctest --config Release ^
             --output-on-failure ^
             --verbose
@@ -51,9 +52,10 @@ steps:
       cmakeArgs: '-A x64 -DXCFun_DIR=..\..\Software\xcfun\CMake ..\examples\C_host'
 
   - script: |
-      cmake --build .\build_C_host ^
-            --config Release
       cd build_C_host
+      cmake --build . ^
+            --config Release ^
+            -- -verbosity:normal
       ctest --config Release ^
             --output-on-failure ^
             --verbose
