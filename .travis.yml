@@ -109,14 +109,14 @@ script:
   - |
     if [[ "$COVERAGE" = "OFF" ]]; then
       env PYTHONPATH=$HOME/Software/xcfun/lib/python:$PYTHONPATH python -c 'import xcfun; print(xcfun.xcfun_splash())'
+      cd -
+      # Build C++ example
+      bash .ci/example.sh CXX_host
+      # Build C example
+      bash .ci/example.sh C_host
+      # Build Fortran example
+      bash .ci/example.sh Fortran_host
     fi
-  - cd -
-  # Build C++ example
-  - bash .ci/example.sh CXX_host
-  # Build C example
-  - bash .ci/example.sh C_host
-  # Build Fortran example
-  - bash .ci/example.sh Fortran_host
 
 after_success:
   - |
