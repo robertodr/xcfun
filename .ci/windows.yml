@@ -24,8 +24,8 @@ steps:
   # Test (ctest)
   - script: |
       cd build
-      ctest --output-on-failure ^
-            --config Release ^
+      ctest -C Release ^
+            --output-on-failure ^
             --verbose
     displayName: "Test XCFun with CTest"
 
@@ -40,7 +40,7 @@ steps:
       cmake --build . ^
             --config Release ^
             -- -verbosity:normal
-      ctest --config Release ^
+      ctest -C Release ^
             --output-on-failure ^
             --verbose
     displayName: "Build and test C++ host example"
@@ -56,7 +56,7 @@ steps:
       cmake --build . ^
             --config Release ^
             -- -verbosity:normal
-      ctest --config Release ^
+      ctest -C Release ^
             --output-on-failure ^
             --verbose
     displayName: "Build and test C host example"
