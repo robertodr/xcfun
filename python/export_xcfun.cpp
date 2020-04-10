@@ -92,7 +92,7 @@ PYBIND11_MODULE(_xcfun, m) {
   py::class_<XCFunctional>(m, "xc_functional");
 
   m.def("xcfun_new",
-        []() { return xcfun_new(); },
+        &xcfun::xcfun_new,
         "Create a new XC functional",
         py::return_value_policy::reference);
   m.def("xcfun_delete", &xcfun::xcfun_delete, "Free XC functional", "fun"_a);

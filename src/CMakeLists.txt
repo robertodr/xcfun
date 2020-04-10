@@ -1,7 +1,6 @@
 add_library(xcfun
-  OBJECT
-    XCFunctional.cpp
-    xcint.cpp
+  XCFunctional.cpp
+  xcint.cpp
   )
 
 add_subdirectory(functionals)
@@ -21,7 +20,7 @@ target_compile_options(xcfun
   )
 
 target_compile_definitions(xcfun
-  PUBLIC
+  PRIVATE
     XCFUN_MAX_ORDER=${XCFUN_MAX_ORDER}
     "$<$<BOOL:WIN32>:_USE_MATH_DEFINES>"
   INTERFACE
@@ -46,7 +45,7 @@ target_include_directories(xcfun
 
 target_link_libraries(xcfun
   PUBLIC
-    "$<$<BOOL:${ENABLE_CODE_COVERAGE}>:gcov>"
+    "$<BUILD_INTERFACE:$<$<BOOL:${ENABLE_CODE_COVERAGE}>:gcov>>"
   )
 
 set_property(GLOBAL APPEND
@@ -94,9 +93,6 @@ install(
     COMPONENT dev
   )
 
-# The alias is useful with FetchContent
-add_library(XCFun::xcfun ALIAS xcfun)
-
 # <<<  Export Config  >>>
 include(CMakePackageConfigHelpers)
 
@@ -129,3 +125,6 @@ install(
   DESTINATION
     ${CMAKECONFIG_INSTALL_DIR}
   )
+
+# The alias is useful with FetchContent
+add_library(XCFun::xcfun ALIAS xcfun)
