@@ -19,7 +19,7 @@
 
 #include "XCFun/XCFunExport.h"
 
-#define XCFun_API xcfun_EXPORT
+#define XCFun_API XCFUN_EXPORT
 
 #define XCFUN_API_VERSION 2 /*!< Version of the XCFun API */
 
@@ -125,7 +125,7 @@ typedef enum {
 /*! \brief The version of XCFun in use
  *  \return the version of XCFun
  */
-XCFun_API const char * xcfun_version();
+const char * XCFun_API xcfun_version();
 
 /*! \brief The XCFun splash screen
  *  \return A `char` array with the XCFun splash screen.
@@ -135,19 +135,19 @@ XCFun_API const char * xcfun_version();
  *  It should be called when initializing XCFun in client code, so that your
  *  users find the right citation for the library.
  */
-XCFun_API const char * xcfun_splash();
+const char * XCFun_API xcfun_splash();
 
 /*! \brief The XCFun splash screen
  *  \return A `char` array with the current list of XCFun authors.
  */
-XCFun_API const char * xcfun_authors();
+const char * XCFun_API xcfun_authors();
 
 /*! \brief Test XCFun
  *  \return the number of failed tests.
  *
  *  Run all internal tests and return the number of failed tests.
  */
-XCFun_API int xcfun_test();
+int XCFun_API xcfun_test();
 
 /*! \brief Whether the library is compatible with the header file
  *  Checks that the compiled library and header file version match.
@@ -156,7 +156,7 @@ XCFun_API int xcfun_test();
  *  \warning This function should be called **before** instantiating
  *  any XCFunctional object.
  */
-XCFun_API bool xcfun_is_compatible_library();
+bool XCFun_API xcfun_is_compatible_library();
 
 // clang-format off
 /*! \brief Obtain correct value of `xcfun_vars` `enum`.
@@ -212,7 +212,7 @@ XCFun_API bool xcfun_is_compatible_library();
  *  \endrst
  */
 // clang-format on
-XCFun_API xcfun_vars xcfun_which_vars(const unsigned int func_type,
+xcfun_vars XCFun_API xcfun_which_vars(const unsigned int func_type,
                                       const unsigned int dens_type,
                                       const unsigned int laplacian,
                                       const unsigned int kinetic,
@@ -223,31 +223,31 @@ XCFun_API xcfun_vars xcfun_which_vars(const unsigned int func_type,
  *  \param[in] mode_type Partial derivatives (1), Potential (2), Contracted (3)
  *  \return The XC functional evaluation mode
  */
-XCFun_API xcfun_mode xcfun_which_mode(const unsigned int mode_type);
+xcfun_mode XCFun_API xcfun_which_mode(const unsigned int mode_type);
 
 /*! \brief Describe XC functional parameters
  *  \param[in] param the parameter to describe. `param` >= 0.
  *  \return description of the given parameter, or `NULL` is `param` is too large.
  */
-XCFun_API const char * xcfun_enumerate_parameters(int param);
+const char * XCFun_API xcfun_enumerate_parameters(int param);
 
 /*! \brief Describe XC functional aliases
  *  \param[in] n the alias to describe. `n` >= 0.
  *  \return description of the given alias, or `NULL` is `n` is too large.
  */
-XCFun_API const char * xcfun_enumerate_aliases(int n);
+const char * XCFun_API xcfun_enumerate_aliases(int n);
 
 /*! \brief Short description of the XC functional
  *  \param[in] name
  *  \return short description of the functional.
  */
-XCFun_API const char * xcfun_describe_short(const char * name);
+const char * XCFun_API xcfun_describe_short(const char * name);
 
 /*! \brief Long description of the XC functional
  *  \param[in] name
  *  \return long description of the functional.
  */
-XCFun_API const char * xcfun_describe_long(const char * name);
+const char * XCFun_API xcfun_describe_long(const char * name);
 
 /*! \struct xcfun_s
  *  Forward-declare opaque handle to a `XCFunctional` object.
@@ -268,12 +268,12 @@ typedef struct xcfun_s xcfun_t;
  *  object may be rather slow; create an object once for each calculation, not
  *  once for each grid point.
  */
-XCFun_API xcfun_t * xcfun_new();
+xcfun_t * XCFun_API xcfun_new();
 
 /*! \brief Delete a XCFun functional
  *  \param[in, out] fun the XCFun functional to be deleted
  */
-XCFun_API void xcfun_delete(xcfun_t * fun);
+void XCFun_API xcfun_delete(xcfun_t * fun);
 
 /*! \brief Set a parameter in the XC functional
  *  \param[in, out] fun
@@ -281,7 +281,7 @@ XCFun_API void xcfun_delete(xcfun_t * fun);
  *  \param[in] value
  *  \return error code (0 means normal exit)
  */
-XCFun_API int xcfun_set(xcfun_t * fun, const char * name, double value);
+int XCFun_API xcfun_set(xcfun_t * fun, const char * name, double value);
 
 /*! \brief Get weight of given functional in the current setup
  *  \param[in] fun the functional object
@@ -291,19 +291,19 @@ XCFun_API int xcfun_set(xcfun_t * fun, const char * name, double value);
  *  \return `0` if `name` is a valid functional, `-1` if not.
  *  See `list_of_functionals.hpp` for valid functional names.
  */
-XCFun_API int xcfun_get(const xcfun_t * fun, const char * name, double * value);
+int XCFun_API xcfun_get(const xcfun_t * fun, const char * name, double * value);
 
 /*! \brief Is the XC functional GGA?
  *  \param[in, out] fun
  *  \return Whether `fun` is a GGA-type functional
  */
-XCFun_API bool xcfun_is_gga(const xcfun_t * fun);
+bool XCFun_API xcfun_is_gga(const xcfun_t * fun);
 
 /*! \brief Is the XC functional GGA?
  *  \param[in, out] fun
  *  \return Whether `fun` is a metaGGA-type functional
  */
-XCFun_API bool xcfun_is_metagga(const xcfun_t * fun);
+bool XCFun_API xcfun_is_metagga(const xcfun_t * fun);
 
 /*! \brief Set up XC functional evaluation variables, mode, and order
  *  \param[in, out] fun XC functional object
@@ -312,7 +312,7 @@ XCFun_API bool xcfun_is_metagga(const xcfun_t * fun);
  *  \param[in] order order of the derivative requested (order=1 is the xc potential)
  *  \return some combination of `XC_E*` if an error occurs, else 0
  */
-XCFun_API int xcfun_eval_setup(xcfun_t * fun,
+int XCFun_API xcfun_eval_setup(xcfun_t * fun,
                                xcfun_vars vars,
                                xcfun_mode mode,
                                int order);
@@ -330,7 +330,7 @@ XCFun_API int xcfun_eval_setup(xcfun_t * fun,
  *  \param[in] explicit_derivatives  (0 not required / 1 required)
  *  \return some combination of `XC_E*` if an error occurs, else 0
  */
-XCFun_API int xcfun_user_eval_setup(xcfun_t * fun,
+int XCFun_API xcfun_user_eval_setup(xcfun_t * fun,
                                     const int order,
                                     const unsigned int func_type,
                                     const unsigned int dens_type,
@@ -344,7 +344,7 @@ XCFun_API int xcfun_user_eval_setup(xcfun_t * fun,
  *  \param[in, out] fun XC functional object
  *  \return some combination of `XC_E*` if an error occurs, else 0
  */
-XCFun_API int xcfun_input_length(const xcfun_t * fun);
+int XCFun_API xcfun_input_length(const xcfun_t * fun);
 
 /*! \brief Length of the result[] argument to `xcfun_eval`
  *  \param[in, out] fun XC functional object
@@ -353,7 +353,7 @@ XCFun_API int xcfun_input_length(const xcfun_t * fun);
  *  \note All derivatives up to order are calculated, not only those of the
  * particular order.
  */
-XCFun_API int xcfun_output_length(const xcfun_t * fun);
+int XCFun_API xcfun_output_length(const xcfun_t * fun);
 
 /*! \brief Evaluate the XC functional for given density at a point.
  *  \param[in, out] fun XC functional object
@@ -363,7 +363,7 @@ XCFun_API int xcfun_output_length(const xcfun_t * fun);
  *  \note In contracted mode density is of dimension
  * \f$2^{\mathrm{order}}*N_{\mathrm{vars}}\f$
  */
-XCFun_API void xcfun_eval(const xcfun_t * fun,
+void XCFun_API xcfun_eval(const xcfun_t * fun,
                           const double density[],
                           double result[]);
 
@@ -379,7 +379,7 @@ XCFun_API void xcfun_eval(const xcfun_t * fun,
  *  \note In contracted mode density is of dimension
  * \f$2^{\mathrm{order}}*N_{\mathrm{vars}}\f$
  */
-XCFun_API void xcfun_eval_vec(const xcfun_t * fun,
+void XCFun_API xcfun_eval_vec(const xcfun_t * fun,
                               int nr_points,
                               const double * density,
                               int density_pitch,

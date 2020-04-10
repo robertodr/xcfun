@@ -1,6 +1,5 @@
 pybind11_add_module(_xcfun MODULE THIN_LTO
   export_xcfun.cpp
-  $<TARGET_OBJECTS:xcfun-objlib>
   )
 
 target_include_directories(_xcfun
@@ -8,6 +7,11 @@ target_include_directories(_xcfun
     ${PROJECT_BINARY_DIR}/include
     ${PROJECT_SOURCE_DIR}/src
     ${PROJECT_SOURCE_DIR}/external/upstream/taylor
+  )
+
+target_link_libraries(_xcfun
+  PRIVATE
+    xcfun
   )
 
 set_target_properties(_xcfun

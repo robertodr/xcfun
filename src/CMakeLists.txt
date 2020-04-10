@@ -1,7 +1,51 @@
-add_library(xcfun-objlib
+add_library(xcfun
   OBJECT
     XCFunctional.cpp
     xcint.cpp
+  )
+
+add_subdirectory(functionals)
+
+include(GenerateExportHeader)
+generate_export_header(xcfun
+  EXPORT_FILE_NAME "${PROJECT_BINARY_DIR}/${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}/XCFunExport.h"
+  DEFINE_NO_DEPRECATED
+  )
+
+target_compile_options(xcfun
+  PRIVATE
+    "${XCFun_CXX_FLAGS}"
+    "$<$<CONFIG:Debug>:${XCFun_CXX_FLAGS_DEBUG}>"
+    "$<$<CONFIG:Release>:${XCFun_CXX_FLAGS_RELEASE}>"
+    "$<$<BOOL:${ENABLE_CODE_COVERAGE}>:${XCFun_CXX_FLAGS_COVERAGE}>"
+  )
+
+target_compile_definitions(xcfun
+  PUBLIC
+    XCFUN_MAX_ORDER=${XCFUN_MAX_ORDER}
+  INTERFACE
+    $<INSTALL_INTERFACE:USING_XCFun>
+  )
+
+target_include_directories(xcfun
+  PRIVATE
+    ${PROJECT_SOURCE_DIR}/api
+    ${PROJECT_BINARY_DIR}/include
+    ${CMAKE_CURRENT_SOURCE_DIR}
+  INTERFACE
+    $<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/${CMAKE_INSTALL_INCLUDEDIR}>
+    $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+  )
+
+target_include_directories(xcfun
+  SYSTEM
+  PRIVATE
+    ${PROJECT_SOURCE_DIR}/external/upstream/taylor
+  )
+
+target_link_libraries(xcfun
+  PUBLIC
+    "$<$<BOOL:${ENABLE_CODE_COVERAGE}>:gcov>"
   )
 
 set_property(GLOBAL APPEND
@@ -14,82 +58,18 @@ set_property(GLOBAL APPEND
     ${CMAKE_CURRENT_SOURCE_DIR}/xcint.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/XCFunctional.hpp
   )
-add_subdirectory(functionals)
 
-include(GenerateExportHeader)
-generate_export_header(xcfun-objlib
-  BASE_NAME "XCFun"
-  EXPORT_MACRO_NAME "xcfun_EXPORTS"
-  EXPORT_FILE_NAME "${PROJECT_BINARY_DIR}/${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}/XCFunExport.h"
-  DEPRECATED_MACRO_NAME "xcfun_DEPRECATED"
-  NO_EXPORT_MACRO_NAME "xcfun_NO_EXPORTS"
-  STATIC_DEFINE "xcfun_STATIC_DEFINE"
-  NO_DEPRECATED_MACRO_NAME "xcfun_NO_DEPRECATED"
-  DEFINE_NO_DEPRECATED
-  )
-
-target_compile_options(xcfun-objlib
-  PRIVATE
-    "${XCFun_CXX_FLAGS}"
-    "$<$<CONFIG:Debug>:${XCFun_CXX_FLAGS_DEBUG}>"
-    "$<$<CONFIG:Release>:${XCFun_CXX_FLAGS_RELEASE}>"
-    "$<$<BOOL:${ENABLE_CODE_COVERAGE}>:${XCFun_CXX_FLAGS_COVERAGE}>"
-  )
-
-target_compile_definitions(xcfun-objlib
-  PUBLIC
-    XCFUN_MAX_ORDER=${XCFUN_MAX_ORDER}
-    xcfun_objlib_EXPORTS
-  )
-
-target_include_directories(xcfun-objlib
-  PRIVATE
-    ${PROJECT_SOURCE_DIR}/api
-    ${PROJECT_BINARY_DIR}/include
-    ${CMAKE_CURRENT_SOURCE_DIR}
-  )
-
-target_include_directories(xcfun-objlib
-  SYSTEM
-  PRIVATE
-    ${PROJECT_SOURCE_DIR}/external/upstream/taylor
-  )
-
-get_property(public_headers GLOBAL PROPERTY public_headers_property)
-
-set_target_properties(xcfun-objlib
+set_target_properties(xcfun
   PROPERTIES
     POSITION_INDEPENDENT_CODE 1
     CXX_VISIBILITY_PRESET hidden
     VISIBILITY_INLINES_HIDDEN 1
-  )
-
-add_library(xcfun $<TARGET_OBJECTS:xcfun-objlib>)
-
-target_compile_definitions(xcfun-objlib
-  INTERFACE
-    $<INSTALL_INTERFACE:USING_XCFun>
-  )
-
-target_include_directories(xcfun
-  INTERFACE
-    $<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/${CMAKE_INSTALL_INCLUDEDIR}>
-    $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
-  )
-
-set_target_properties(xcfun
-  PROPERTIES
     VERSION ${PROJECT_VERSION_MAJOR}
     SOVERSION ${PROJECT_VERSION_MAJOR}
     MACOSX_RPATH ON
     OUTPUT_NAME "xcfun"
     DEBUG_POSTFIX "_d"
     PUBLIC_HEADER "${public_headers}"
-  )
-
-target_link_libraries(xcfun
-  PUBLIC
-    "$<$<BOOL:${ENABLE_CODE_COVERAGE}>:gcov>"
   )
 
 install(
