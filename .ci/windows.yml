@@ -1,6 +1,4 @@
 steps:
-  continueOnError: true
-
   - task: UsePythonVersion@0
     inputs:
       versionSpec: '$(python.version)'
@@ -33,18 +31,14 @@ steps:
             -E python_interface ^
             --verbose
     displayName: "Test XCFun with CTest"
+    continueOnError: true
 
   # Test Python module can be imported
   - script: |
       set PYTHONPATH=.\Software\xcfun\lib\python;%PYTHONPATH%
       python -c "import xcfun; print(xcfun.xcfun_splash())"
     displayName: "Test XCFun Python module"
-
-  # Test Python module can be imported
-  - script: |
-      set PYTHONPATH=.\Software\xcfun\lib\python;%PYTHONPATH%
-      python -c "import xcfun; print(xcfun.xcfun_splash())"
-    displayName: "Test XCFun Python module"
+    continueOnError: true
 
   # Test we can build the C++ example
   - task: CMake@1
@@ -61,6 +55,7 @@ steps:
             --output-on-failure ^
             --verbose
     displayName: "Build and test C++ host example"
+    continueOnError: true
 
   # Test we can build the C example
   - task: CMake@1
@@ -77,3 +72,4 @@ steps:
             --output-on-failure ^
             --verbose
     displayName: "Build and test C host example"
+    continueOnError: true
