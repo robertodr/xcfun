@@ -23,6 +23,7 @@ target_compile_options(xcfun
 target_compile_definitions(xcfun
   PUBLIC
     XCFUN_MAX_ORDER=${XCFUN_MAX_ORDER}
+    "$<$<BOOL:WIN32>:_USE_MATH_DEFINES>"
   INTERFACE
     $<INSTALL_INTERFACE:USING_XCFun>
   )
