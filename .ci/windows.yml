@@ -24,17 +24,16 @@ steps:
   # Test (ctest)
   - script: |
       cd build
-      ls lib/python/xcfun
-      ls lib/python/xcfun/Release
       ctest -C Release ^
             --output-on-failure ^
-            -E python_interface ^
             --verbose
     displayName: "Test XCFun with CTest"
     continueOnError: true
 
   # Test Python module can be imported
   - script: |
+      ls .\Software\xcfun\lib\python
+      ls .\Software\xcfun\lib\python\xcfun
       set PYTHONPATH=.\Software\xcfun\lib\python;%PYTHONPATH%
       python -c "import xcfun; print(xcfun.xcfun_splash())"
     displayName: "Test XCFun Python module"
@@ -51,11 +50,7 @@ steps:
       cmake --build . ^
             --config Release ^
             -- -verbosity:normal
-      ctest -C Release ^
-            --output-on-failure ^
-            --verbose
-    displayName: "Build and test C++ host example"
-    continueOnError: true
+    displayName: "Build C++ host example"
 
   # Test we can build the C example
   - task: CMake@1
@@ -68,8 +63,4 @@ steps:
       cmake --build . ^
             --config Release ^
             -- -verbosity:normal
-      ctest -C Release ^
-            --output-on-failure ^
-            --verbose
-    displayName: "Build and test C host example"
-    continueOnError: true
+    displayName: "Build C host example"
