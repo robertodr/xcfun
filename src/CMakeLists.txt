@@ -22,7 +22,7 @@ target_compile_options(xcfun
 target_compile_definitions(xcfun
   PRIVATE
     XCFUN_MAX_ORDER=${XCFUN_MAX_ORDER}
-    "$<$<BOOL:WIN32>:_USE_MATH_DEFINES>"
+    $<$<CXX_COMPILER_ID:MSVC>:_USE_MATH_DEFINES>
   INTERFACE
     $<INSTALL_INTERFACE:USING_XCFun>
   )
@@ -46,6 +46,8 @@ target_include_directories(xcfun
 target_link_libraries(xcfun
   PUBLIC
     "$<BUILD_INTERFACE:$<$<BOOL:${ENABLE_CODE_COVERAGE}>:gcov>>"
+  INTERFACE
+     $<INSTALL_INTERFACE:$<$<NOT:$<BOOL:${BUILD_SHARED_LIBS}>>:${CMAKE_CXX_IMPLICIT_LINK_LIBRARIES}>>
   )
 
 set_property(GLOBAL APPEND
