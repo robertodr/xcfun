@@ -38,9 +38,10 @@ steps:
   - script: |
       cmake --build .\build_CXX_host ^
             --config Release
-      cmake --build .\build_CXX_host ^
-            --config Release ^
-            --target RUN_TESTS
+      cd build_CXX_host
+      ctest --config Release ^
+            --output-on-failure ^
+            --verbose
     displayName: "Build and test C++ host example"
 
   # Test we can build the C example
@@ -52,9 +53,10 @@ steps:
   - script: |
       cmake --build .\build_C_host ^
             --config Release
-      cmake --build .\build_C_host ^
-            --config Release ^
-            --target RUN_TESTS
+      cd build_C_host
+      ctest --config Release ^
+            --output-on-failure ^
+            --verbose
     displayName: "Build and test C host example"
 
   # Test Python module can be imported
