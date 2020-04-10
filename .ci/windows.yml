@@ -24,6 +24,9 @@ steps:
   # Test (ctest)
   - script: |
       cd build
+      ls lib\python
+      ls lib\python\xcfun
+      ls lib\python\xcfun\Release
       ctest -C Release ^
             --output-on-failure ^
             --verbose
