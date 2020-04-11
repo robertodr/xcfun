@@ -15,14 +15,15 @@ steps:
   - task: CMake@1
     inputs:
       workingDirectory: 'build'
-      cmakeArgs: '-GNinja -DXCFUN_PYTHON_INTERFACE=ON -DCMAKE_INSTALL_PREFIX=..\Software\xcfun ..'
+      cmakeArgs: '-GNinja -DCMAKE_CXX_COMPILER=cl.exe -DXCFUN_PYTHON_INTERFACE=ON -DCMAKE_INSTALL_PREFIX=..\Software\xcfun ..'
 
   # Build
   - script: |
       cmake --build build ^
             --config Release ^
             --target install ^
-            -- -verbosity:normal
+            -- -v -d stats
+            #-- -verbosity:normal
     displayName: "Build XCFun"
 
   # Test (ctest)
