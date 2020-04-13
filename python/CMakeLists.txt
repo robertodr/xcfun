@@ -41,8 +41,8 @@ foreach(_f __init__.py xcfun.py)
     CREATE_LINK
       ${CMAKE_CURRENT_SOURCE_DIR}/${_f}
       ${PROJECT_BINARY_DIR}/${PYMOD_INSTALL_FULLDIR}/${_f}
+    COPY_ON_ERROR
     SYMBOLIC
-    #COPY_ON_ERROR
     )
 endforeach()
 
