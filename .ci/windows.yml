@@ -35,6 +35,9 @@ steps:
 
   - script: |
       cd build
+      ls lib/python
+      ls lib/python/xcfun
+      type lib/python/xcfun/__init__.py
       ctest -C Release ^
             --output-on-failure ^
             --verbose
@@ -42,7 +45,9 @@ steps:
     continueOnError: true
 
   - script: |
-      set PYTHONPATH=.\Software\xcfun\lib\python;%PYTHONPATH%
+      ls .\Software\xcfun\lib\python
+      type ./Software/lib/python/xcfun/__init__.py
+      set PYTHONPATH=.\Software\xcfun\lib;.\Software\xcfun\lib\python;%PYTHONPATH%
       python -c "import xcfun; print(xcfun.xcfun_splash())"
     displayName: "Test XCFun Python module"
     continueOnError: true
