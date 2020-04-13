@@ -1,4 +1,9 @@
 steps:
+  - script: |
+      choco install ninja --yes
+      ninja --version
+    displayName: "Install Ninja"
+
   - task: UsePythonVersion@0
     inputs:
       versionSpec: '$(python.version)'
@@ -8,35 +13,32 @@ steps:
       python -m pip install --upgrade pip pytest numpy
     displayName: 'Pip install Python dependencies'
 
-  - task: CMake@1
-    inputs:
-      workingDirectory: 'build'
-      cmakeArgs: '-A x64 -DCMAKE_CONFIGURATION_TYPES=Release -DXCFUN_PYTHON_INTERFACE=ON -DCMAKE_INSTALL_PREFIX=..\Software\xcfun ..'
-
-  # Build
   - script: |
-      cmake --build build ^
+      call "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/vcvarsall.bat" x86_amd64
+      mkdir build & cd build
+      cmake -G Ninja ^
+            -DCMAKE_BUILD_TYPE=%CMAKE_BUILD_TYPE% ^
+            -DCMAKE_INSTALL_PREFIX=../Software/xcfun ^
+            -DCMAKE_CXX_COMPILER=cl ^
+            -DXCFUN_PYTHON_INTERFACE=ON ^
+            ..
+    displayName: "Configure XCFun"
+
+  - script: |
+      cmake --build . ^
             --config Release ^
             --target install ^
-            -- -verbosity:normal
+            -- -v -d stats
     displayName: "Build XCFun"
 
-  # Test (ctest)
   - script: |
-      cd build
-      ls lib\python
-      ls lib\python\xcfun
-      ls lib\python\xcfun\Release
       ctest -C Release ^
             --output-on-failure ^
             --verbose
     displayName: "Test XCFun with CTest"
     continueOnError: true
 
-  # Test Python module can be imported
   - script: |
-      ls .\Software\xcfun\lib\python
-      ls .\Software\xcfun\lib\python\xcfun
       set PYTHONPATH=.\Software\xcfun\lib\python;%PYTHONPATH%
       python -c "import xcfun; print(xcfun.xcfun_splash())"
     displayName: "Test XCFun Python module"
