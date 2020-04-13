@@ -8,6 +8,7 @@
 
 ### Changed
 
+- **BREAKING** CMake >= 3.14 is required to configure the code. 
 - **BREAKING** The build system will only produce a shared (default) or static
   library. Compilation of the static library can be requested by setting
   `BUILD_SHARED_LIBS` to `OFF`.
