@@ -33,10 +33,8 @@ steps:
     displayName: "Build XCFun"
 
   - script: |
+      call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" x86_amd64
       cd build
-      ls lib/python
-      ls lib/python/xcfun
-      type lib/python/xcfun/__init__.py
       ctest -C Release ^
             --output-on-failure ^
             --verbose
@@ -44,6 +42,9 @@ steps:
     continueOnError: true
 
   - script: |
+      call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" x86_amd64
+      ls .\Software\xcfun\lib\python
+      ls .\Software\xcfun\lib\python\xcfun
       set PYTHONPATH=.\Software\xcfun\lib\python;%PYTHONPATH%
       python -c "import xcfun; print(xcfun.xcfun_splash())"
     displayName: "Test XCFun Python module"
