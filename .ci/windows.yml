@@ -16,7 +16,6 @@ steps:
   # Build
   - script: |
       cmake --build build ^
-            --config Release ^
             --target install ^
             -- -verbosity:normal
     displayName: "Build XCFun"
