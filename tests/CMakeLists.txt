@@ -13,7 +13,7 @@ target_compile_options(testall
   )
 add_test(
   NAME testall
-  COMMAND ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/testall
+  COMMAND $<TARGET_FILE:testall>
   )
 
 if(XCFUN_PYTHON_INTERFACE)
