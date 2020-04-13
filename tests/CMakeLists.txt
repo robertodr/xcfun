@@ -18,22 +18,21 @@ add_test(
 
 if(XCFUN_PYTHON_INTERFACE)
   list(APPEND _pytest_files
-    ${CMAKE_CURRENT_SOURCE_DIR}/test_xcfun.py
+    test_xcfun.py
     )
   foreach(_file IN LISTS _pytest_files)
-    get_filename_component(__file ${_file} NAME)
-    add_custom_target(symlink_${__file} ALL
-      COMMAND
-        ${CMAKE_COMMAND} -E create_symlink
-        ${_file}
-        ${PROJECT_BINARY_DIR}/${PYMOD_INSTALL_FULLDIR}/../${__file}
+    file(
+      CREATE_LINK
+        ${CMAKE_CURRENT_SOURCE_DIR}/${_file}
+        ${PROJECT_BINARY_DIR}/${PYMOD_INSTALL_FULLDIR}/../${_file}
+      SYMBOLIC
+      #COPY_ON_ERROR
       )
   endforeach()
 
   add_test(
     NAME python-interface
-    COMMAND ${PYTHON_EXECUTABLE} -m pytest -x -rws -vv
-    WORKING_DIRECTORY $<TARGET_FILE_DIR:_xcfun>/..
+    COMMAND ${PYTHON_EXECUTABLE} -m pytest -x -rws -vv $<TARGET_FILE_DIR:_xcfun>/..
     )
 
   install(
