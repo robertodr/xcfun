@@ -8,22 +8,17 @@ steps:
       python -m pip install --upgrade pip pytest numpy
     displayName: 'Pip install Python dependencies'
 
-  - script: |
-      choco install ninja --yes
-    displayName: 'Install Ninja'
-
   - task: CMake@1
     inputs:
       workingDirectory: 'build'
-      cmakeArgs: '-GNinja -DMSVC_TOOLSET_VERSION=142 -DXCFUN_PYTHON_INTERFACE=ON -DCMAKE_INSTALL_PREFIX=..\Software\xcfun ..'
+      cmakeArgs: '-A x64 -DCMAKE_CONFIGURATION_TYPES=Release -DXCFUN_PYTHON_INTERFACE=ON -DCMAKE_INSTALL_PREFIX=..\Software\xcfun ..'
 
   # Build
   - script: |
       cmake --build build ^
             --config Release ^
             --target install ^
-            -- -v -d stats
-            #-- -verbosity:normal
+            -- -verbosity:normal
     displayName: "Build XCFun"
 
   # Test (ctest)
@@ -51,7 +46,7 @@ steps:
   - task: CMake@1
     inputs:
       workingDirectory: 'build_CXX_host'
-      cmakeArgs: '-GNinja -DXCFun_DIR=..\..\Software\xcfun\CMake ..\examples\CXX_host'
+      cmakeArgs: '-A x64 -DXCFun_DIR=..\..\Software\xcfun\CMake ..\examples\CXX_host'
 
   - script: |
       cd build_CXX_host
@@ -64,7 +59,7 @@ steps:
   - task: CMake@1
     inputs:
       workingDirectory: 'build_C_host'
-      cmakeArgs: '-G Ninja -DXCFun_DIR=..\..\Software\xcfun\CMake ..\examples\C_host'
+      cmakeArgs: '-A x64 -DXCFun_DIR=..\..\Software\xcfun\CMake ..\examples\C_host'
 
   - script: |
       cd build_C_host
