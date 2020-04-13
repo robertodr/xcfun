@@ -11,11 +11,12 @@ steps:
   - task: CMake@1
     inputs:
       workingDirectory: 'build'
-      cmakeArgs: '-A x64 -DCMAKE_CONFIGURATION_TYPES="" -DXCFUN_PYTHON_INTERFACE=ON -DCMAKE_INSTALL_PREFIX=..\Software\xcfun ..'
+      cmakeArgs: '-A x64 -DCMAKE_CONFIGURATION_TYPES=Release -DXCFUN_PYTHON_INTERFACE=ON -DCMAKE_INSTALL_PREFIX=..\Software\xcfun ..'
 
   # Build
   - script: |
       cmake --build build ^
+            --config Release ^
             --target install ^
             -- -verbosity:normal
     displayName: "Build XCFun"
