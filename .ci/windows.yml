@@ -15,23 +15,24 @@ steps:
 
   - script: |
       call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" x86_amd64
-      mkdir build & cd build
-      cmake -G Ninja ^
+      mkdir build
+      cmake -H. -Bbuild ^
+            -G Ninja ^
             -DCMAKE_BUILD_TYPE=%CMAKE_BUILD_TYPE% ^
             -DCMAKE_INSTALL_PREFIX=../Software/xcfun ^
             -DCMAKE_CXX_COMPILER=cl.exe ^
-            -DXCFUN_PYTHON_INTERFACE=ON ^
-            ..
+            -DXCFUN_PYTHON_INTERFACE=ON
     displayName: "Configure XCFun"
 
   - script: |
-      cmake --build . ^
+      cmake --build build ^
             --config Release ^
             --target install ^
             -- -v -d stats
     displayName: "Build XCFun"
 
   - script: |
+      cd build
       ctest -C Release ^
             --output-on-failure ^
             --verbose
